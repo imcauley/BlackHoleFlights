@@ -1,0 +1,35 @@
+a - admin
+b - buyer
+p - pilot
+
+GET
+b get_trips(source, dest)
+b get_flight(flight_id)
+p get_assigned_flights()
+a get_all_flights()
+
+POST
+b buy_flight(flight_id)
+b cancel_flight(flight_id)
+b add_luggage(...)
+b sign-up(...)
+b log-in(...)
+
+a add_flight(..)
+a add_pilot_to_flight(...)
+a add_spaceship(...)
+a add_location(...)
+a add_admin(...)
+a add_pilot(...)
+p add_pilot_to_flight(...)
+
+
+
+POPULATION
+RANDOMIZED
+locations
+flights
+pilots
+
+SOURCED
+spaceships
