@@ -11,7 +11,6 @@ const con = mysql.createConnection({
 });
 
 con.connect();
-
 app.listen(port);
 
 app.get("/api_test", (req, res, next) => {
@@ -22,14 +21,14 @@ app.get("/api_test", (req, res, next) => {
 
 app.get("/db_test", (req, res, next) => {
 
-  con.query('SELECT * FROM User', function (error, results, fields) {
+  con.query('SELECT * FROM User', (error, results, fields) => {
     if (error) throw error;
+
     data = results[0].username;
 
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.json({"first user": data});
+    res.json({"first_user": data});
   });
-
 
 });
 
