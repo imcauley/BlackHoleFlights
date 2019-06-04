@@ -33,13 +33,13 @@ class TestObject extends React.Component {
   }
 
   componentDidMount() {
-    fetch("https://ipinfo.io/json")
+    fetch("http://localhost:3000/api_test/")
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
             isLoaded: true,
-            items: result.ip
+            items: result.data
           });
         },
         // Note: it's important to handle errors here

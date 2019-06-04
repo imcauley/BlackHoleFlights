@@ -4,8 +4,9 @@ var express = require('express'),
 
 app.listen(port);
 
-app.get("/", (req, res, next) => {
-    res.json(["test data"]);
+app.get("/api_test", (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.json({"data": "this is test data"});
 });
 
 console.log('todo list RESTful API server started on: ' + port);
