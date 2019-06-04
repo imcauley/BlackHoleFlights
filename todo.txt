@@ -1,0 +1,12 @@
+Matt:
+-remote database
+-randomized database population
+
+Isaac:
+-test form
+-multiple pages
+-page mockups
+
+Evan:
+-setup post request
+-sequence diagram
