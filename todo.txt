@@ -1,11 +1,13 @@
 Matt:
 -remote database
 -randomized database population
+-cascade in schema
 
 Isaac:
 -test form
 -multiple pages
 -page mockups
+-login
 
 Evan:
 -setup post request
