@@ -8,7 +8,8 @@ function App() {
     <div className="App">
       <header className="App-header">
       <UserRow/>
-      <NameForm/> 
+      {/* <NameForm/>  */}
+      <CustomList/>
       </header>
     </div>
   );
@@ -88,6 +89,44 @@ class NameForm extends React.Component {
         <div> Thank you {this.state.value} </div>
       )
     }
+  }
+}
+
+class ListItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { };
+  }
+
+  render() {
+    return (<div> {this.props.text} </div>)
+  }
+}
+
+class CustomList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      values: [],
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    console.log(this.state.values);
+    this.setState({values: [...this.state.values, "new item"]});
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+    <div>
+      <button onClick={this.handleClick}>Click me</button>
+      {this.state.values.map((item, index) => (
+        <ListItem text={item} key={index}/>
+      ))}
+    </div>
+    )
   }
 }
 
