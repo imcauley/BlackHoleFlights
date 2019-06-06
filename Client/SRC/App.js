@@ -7,10 +7,29 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <h3> Database retrieval </h3>
       <UserRow/>
-      {/* <NameForm/>  */}
+      <br/>
+
+      <h3> Selecting Form </h3>
+      <SelectForm/>
+      <br/>
+
+      <h3> Fill Form </h3>
+      <NameForm/> 
+      <br/>
+
+      <h3> Button & Dynamic List </h3>
       <CustomList/>
+      <br/>
+
+      <h3> Collapsable </h3>
+      <Collapsable/>
+      <Collapsable/>
+      <Collapsable/>
+      <br/>
       </header>
+
     </div>
   );
 }
@@ -39,17 +58,16 @@ class UserRow extends React.Component {
         (error) => {
           this.setState({
             isLoaded: true,
-            items: "none"
+            items: "API connection failed"
           });
         }
       )
   }
 
   render() {
-    return (<div className='UserRow'> {this.state.items} </div>);
+    return (<p className='UserRow'> {this.state.items} </p>);
   }
 }
-
 
 class NameForm extends React.Component {
   constructor(props) {
@@ -113,7 +131,6 @@ class CustomList extends React.Component {
   }
 
   handleClick(event) {
-    console.log(this.state.values);
     this.setState({values: [...this.state.values, "new item"]});
     event.preventDefault();
   }
@@ -127,6 +144,79 @@ class CustomList extends React.Component {
       ))}
     </div>
     )
+  }
+}
+
+class SelectForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {  
+      value: '',
+      values: ['Lime', 'Coconut', 'Lemon']
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <div>
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Pick your favorite flavor:
+          <select value={this.state.value} onChange={this.handleChange}>
+            {this.state.values.map((item, index) => (
+            <option value={item} key={index}>{item}</option>
+            ))}
+          </select>
+        </label>
+      </form>
+      <p> Your favorite fruit is: {this.state.value} </p>
+      </div>
+    );
+  }
+}
+
+class Collapsable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {  
+      collapsed: true
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    if(this.state.collapsed) {
+      this.setState({collapsed: false})
+    } else {
+      this.setState({collapsed: true})
+    }
+  }
+
+  render() {
+    var main = <div className='UserRow' onClick={this.handleClick}> There is some stuff here </div>;
+    if(this.state.collapsed) {
+      return(main)
+    }
+    else {
+      return(
+        <div> 
+          {main}
+          <div className='expanded'> And here's some more stuff </div>
+        </div>
+      )
+    }
   }
 }
 
