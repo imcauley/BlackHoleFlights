@@ -1,0 +1,38 @@
+html {
+    background-color: #282c34;
+    color: #FFF4F5;
+    height: 100%;
+}
+
+.SideBar {
+    background-color: rgb(238, 130, 6);
+    min-height: 100%;
+    width: 12%;
+    font-size: calc(10px + 2vmin);
+    /* padding: 2%; */
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    float: left;
+    padding-top: 10px;
+}
+
+.sideBarText {
+    margin-left: 10px;
+    position: relative;
+}
+
+.userButtonTab:hover {
+    background-color: rgb(211, 44, 14);
+    cursor: pointer;
+}
+
+.Page {
+    float: left;
+    margin-left: 12%
+}
+
+.userButtonTab {
+    width: 100%;
+    margin-bottom: 4px;
+}
