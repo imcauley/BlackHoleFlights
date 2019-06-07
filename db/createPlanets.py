@@ -2,12 +2,17 @@ import csv
 import mysql.connector as mysql
 import random
 
+
 cred = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '',
-    'database': 'blackhole'
+     'host': "104.198.156.225",
+     'user': "root",
+     'password': "password",
+     'database': "cpsc471"
 }
+
+
+
+
 
 def populate_planets():
     db = mysql.connect(**cred)

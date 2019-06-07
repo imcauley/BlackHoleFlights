@@ -7,11 +7,13 @@ var express = require('express'),
   port = process.env.PORT || 3000;
 
 const con = mysql.createConnection({
-  host: "localhost",
+  host: "104.198.156.225\"",
   user: "root",
-  password: "",
-  database: "blackhole"
+  password: "password",
+  database: "cpsc471"
 });
+
+
 
 con.connect();
 app.listen(port);

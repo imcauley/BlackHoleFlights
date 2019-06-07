@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="469dcda4-76ac-4d5c-9edb-05df1da4fdee" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/App/Routes/add_pilot_to_flight.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api.txt" beforeDir="false" afterPath="$PROJECT_DIR$/api.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/createPlanets.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/createPlanets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/test.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -30,11 +29,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/schema.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1557">
-              <caret line="24" column="2" lean-forward="true" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
+            <state relative-caret-position="3726">
+              <caret line="162" selection-start-line="162" selection-end-line="162" />
             </state>
           </provider>
         </entry>
@@ -45,24 +44,24 @@
             <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
           </provider>
           <provider selected="true" editor-type-id="csv-text-editor">
-            <state relative-caret-position="-8347" />
+            <state relative-caret-position="414">
+              <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/createPlanets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-305" />
+            <state relative-caret-position="92">
+              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="11" />
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/api/test.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/db/createFlights.py">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -78,19 +77,26 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/App/Routes/testRoute.js">
+        <entry file="file://$PROJECT_DIR$/Client/SRC/Admin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="46">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+            <state relative-caret-position="-696" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/api/test.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api.txt">
+        <entry file="file://$PROJECT_DIR$/App/Routes/testRoute.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="25" selection-end-column="21" />
+            <state relative-caret-position="46">
+              <caret line="2" selection-start-line="2" selection-end-line="2" />
             </state>
           </provider>
         </entry>
@@ -98,8 +104,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/Routes/add_pilot_to_flight.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+            <state relative-caret-position="358">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
             </state>
           </provider>
         </entry>
@@ -118,7 +124,6 @@
     <findStrings>
       <find>d</find>
       <find>time</find>
-      <find>spaceship</find>
       <find>pilot</find>
       <find>Pilot</find>
       <find>flight</find>
@@ -127,6 +132,12 @@
       <find>seat``</find>
       <find>left</find>
       <find>reference</find>
+      <find>salar</find>
+      <find>admin</find>
+      <find>Salary</find>
+      <find>manufacture</find>
+      <find>atlantis</find>
+      <find>spaceship</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -146,6 +157,8 @@
         <option value="$PROJECT_DIR$/api.txt" />
         <option value="$PROJECT_DIR$/App/Routes/add_pilot_to_flight.js" />
         <option value="$PROJECT_DIR$/db/schema.sql" />
+        <option value="$PROJECT_DIR$/db/createPlanets.py" />
+        <option value="$PROJECT_DIR$/api/test.js" />
       </list>
     </option>
   </component>
@@ -170,6 +183,11 @@
             <path>
               <item name="BlackHoleFlights" type="b2602c69:ProjectViewProjectNode" />
               <item name="BlackHoleFlights" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BlackHoleFlights" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BlackHoleFlights" type="462c0819:PsiDirectoryNode" />
               <item name="App" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -181,19 +199,18 @@
             <path>
               <item name="BlackHoleFlights" type="b2602c69:ProjectViewProjectNode" />
               <item name="BlackHoleFlights" type="462c0819:PsiDirectoryNode" />
-              <item name="Client" type="462c0819:PsiDirectoryNode" />
+              <item name="db" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="BlackHoleFlights" type="b2602c69:ProjectViewProjectNode" />
               <item name="BlackHoleFlights" type="462c0819:PsiDirectoryNode" />
-              <item name="Client" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="BlackHoleFlights" type="b2602c69:ProjectViewProjectNode" />
               <item name="BlackHoleFlights" type="462c0819:PsiDirectoryNode" />
-              <item name="Client" type="462c0819:PsiDirectoryNode" />
-              <item name="SRC" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -242,7 +259,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13133000" />
+    <option name="totallyTimeSpent" value="17329000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -294,9 +311,32 @@
     <entry file="file://$PROJECT_DIR$/Client/SRC/index.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/createPlanets.py">
+    <entry file="file://$PROJECT_DIR$/api.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-305" />
+        <state relative-caret-position="289">
+          <caret line="16" selection-start-line="16" selection-end-line="25" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/Routes/testRoute.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/Routes/add_pilot_to_flight.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Client/SRC/App.test.js">
@@ -308,25 +348,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api.txt">
+    <entry file="file://$PROJECT_DIR$/Client/SRC/Admin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="25" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/Routes/add_pilot_to_flight.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/Routes/testRoute.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
+        <state relative-caret-position="-696" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db/planets.csv">
@@ -334,13 +358,18 @@
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="-8347" />
+        <state relative-caret-position="414">
+          <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/test.js">
+    <entry file="file://$PROJECT_DIR$/db/createFlights.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/schema.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="3726">
+          <caret line="162" selection-start-line="162" selection-end-line="162" />
         </state>
       </provider>
     </entry>
@@ -354,10 +383,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/schema.sql">
+    <entry file="file://$PROJECT_DIR$/db/createPlanets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1557">
-          <caret line="24" column="2" lean-forward="true" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
+        <state relative-caret-position="92">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>

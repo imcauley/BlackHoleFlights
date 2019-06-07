@@ -132,26 +132,16 @@ VALUES
 
 
 INSERT INTO Admin
-(`ID`, `Salary`)
+(`ID`)
 VALUES
-('4', '1000'),
-('5', '2000'),
-('6', '3000');
-
-INSERT INTO Destination
-(`planetName`, `SGX`, `SGY`, `SGZ`)
-VALUES
-('Vulcan', '1', '1', '1'),
-('Atlantis', '2', '2', '2'),
-('Earth', '3', '3', '3'),
-('Caprica', '4', '4', '4'),
-('Naboo', '5', '5', '5'),
-('Char', '6', '6', '6');
+('4'),
+('5'),
+('6');
 
 
 
 INSERT INTO SpaceShipModel
-(`modelNumber`, `modelName`, `numberofSeats`, `manufactureName`)
+(`modelNumber`, `modelName`, `numberofSeats`, `manufacturerName`)
 VALUES
 ('1', 'Excelsior', '10', 'Federation'),
 ('2', 'Galaxy Class', '20', 'Federation'),
@@ -175,15 +165,15 @@ VALUES
 INSERT INTO SpaceShip
 (`serialNumber`, `distanceTravelled`, `active`, `model`)
 VALUES
-('1', '10', 'FALSE', '1'),
-('2', '20', 'TRUE', '2'),
-('3', '30', 'TRUE', '3'),
-('4', '40', 'TRUE', '4'),
-('5', '50', 'TRUE', '5'),
-('6', '60', 'TRUE', '6'),
-('7', '70', 'TRUE', '7'),
-('8', '80', 'TRUE', '8'),
-('9', '90', 'TRUE', '9');
+('1', '10', '0', '1'),
+('2', '20', '1', '2'),
+('3', '30', '1', '3'),
+('4', '40', '1', '4'),
+('5', '50', '1', '5'),
+('6', '60', '1', '6'),
+('7', '70', '1', '7'),
+('8', '80', '1', '8'),
+('9', '90', '1', '9');
 
 INSERT INTO TrainedFor
   (`pilot`, `ship`)
@@ -200,7 +190,7 @@ VALUES
 
 
 INSERT INTO Baggage
-(`weight`, `badNumber`, `ticket`)
+(`weight`, `bagNumber`, `ticket`)
 VALUES
 ('10', '1', '1'),
 ('20', '2', '1'),
