@@ -33,3 +33,9 @@ pilots
 
 SOURCED
 spaceships
+
+
+Colours:
+#A41E03
+#FEBA33
+xw#1D0300
