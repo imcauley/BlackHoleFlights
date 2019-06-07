@@ -2,7 +2,7 @@ CREATE DATABASE blackhole;
 
 CREATE TABLE User
 (
-  id int(11) NOT NULL,
+  id int(11) NOT NULL AUTO_INCREMENT,
   username varchar(200) NOT NULL,
   password varchar(200) NOT NULL,
   email varchar(200) NOT NULL,
@@ -14,19 +14,19 @@ CREATE TABLE Passenger
 (
   id int(11) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (id) REFERENCES User(id)
+  FOREIGN KEY (id) REFERENCES User(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Admin
 (
   id int(11) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (id) REFERENCES User(id)
+  FOREIGN KEY (id) REFERENCES User(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Destination
 (
-  id int(11) NOT NULL,
+  id int(11) NOT NULL AUTO_INCREMENT,
   planetName varchar(200) NOT NULL,
   SGX int(11) NOT NULL,
   SGY int(11) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE Destination
 
 CREATE TABLE SpaceShipModel
 (
-  modelNumber int(11) NOT NULL,
+  modelNumber int(11) NOT NULL AUTO_INCREMENT,
   modelName varchar(200) NOT NULL,
   numberofSeats int(11) NOT NULL,
   manufacturerName varchar(200) NOT NULL,
@@ -49,18 +49,18 @@ CREATE TABLE Pilot
   id int(11) NOT NULL,
   homeBase int(11) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (id) REFERENCES User(id),
-  FOREIGN KEY (homeBase) REFERENCES Destination(id)
+  FOREIGN KEY (id) REFERENCES User(id) ON DELETE CASCADE,
+  FOREIGN KEY (homeBase) REFERENCES Destination(id) ON DELETE CASCADE
 );
 
 CREATE TABLE SpaceShip
 (
-  serialNumber varchar(11) NOT NULL,
+  serialNumber varchar(11) NOT NULL AUTO_INCREMENT,
   distanceTravelled int(11) NOT NULL,
   active bool NOT NULL,
   model int(11) NOT NULL,
   PRIMARY KEY (serialNumber),
-  FOREIGN KEY (model) REFERENCES SpaceShipModel(modelNumber)
+  FOREIGN KEY (model) REFERENCES SpaceShipModel(modelNumber) ON DELETE CASCADE
 );
 
 CREATE TABLE TrainedFor
@@ -76,19 +76,18 @@ CREATE TABLE Flight
   flightID int(11) NOT NULL,
   departureTime datetime NOT NULL,
   arrivalTime datetime NOT NULL,
-  seatsLeft int(11) NOT NULL,
   totalDistance int(11) NOT NULL,
   createdBy int(11) NOT NULL,
   departure int(11) NOT NULL,
   arrival int(11) NOT NULL,
   ship int(11) NOT NULL,
-  pilot int(11) NOT NULL,
+  pilot int(11),
   PRIMARY KEY (flightID),
-  FOREIGN KEY (createdBy) REFERENCES Admin(id),
-  FOREIGN KEY (departure) REFERENCES Destination(id),
-  FOREIGN KEY (arrival) REFERENCES Destination(id),
-  FOREIGN KEY (ship) REFERENCES SpaceShip(serialNumber),
-  FOREIGN KEY (pilot) REFERENCES Pilot(id)
+  FOREIGN KEY (createdBy) REFERENCES Admin(id) ON DELETE CASCADE,
+  FOREIGN KEY (departure) REFERENCES Destination(id) ON DELETE CASCADE,
+  FOREIGN KEY (arrival) REFERENCES Destination(id) ON DELETE CASCADE,
+  FOREIGN KEY (ship) REFERENCES SpaceShip(serialNumber) ON DELETE CASCADE,
+  FOREIGN KEY (pilot) REFERENCES Pilot(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Ticket
@@ -99,8 +98,8 @@ CREATE TABLE Ticket
   owner int(11) NOT NULL,
   flight int(11) NOT NULL,
   PRIMARY KEY (TicketID),
-  FOREIGN KEY (Owner) REFERENCES Passenger(id),
-  FOREIGN KEY (Flight) REFERENCES Flight(flightID)
+  FOREIGN KEY (Owner) REFERENCES Passenger(id) ON DELETE CASCADE,
+  FOREIGN KEY (Flight) REFERENCES Flight(flightID) ON DELETE CASCADE
 );
 
 CREATE TABLE Baggage
@@ -108,7 +107,7 @@ CREATE TABLE Baggage
   weight int(11) NOT NULL,
   bagNumber int(11) NOT NULL,
   ticket int(11) NOT NULL,
-  FOREIGN KEY (ticket) REFERENCES Ticket(TicketID)
+  FOREIGN KEY (ticket) REFERENCES Ticket(TicketID) ON DELETE CASCADE
 );
 
 

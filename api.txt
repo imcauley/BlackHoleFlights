@@ -22,7 +22,8 @@ a add_location(...)
 a add_admin(...)
 a add_pilot(...)
 p add_pilot_to_flight(...)
-
+a delete_ticket
+a admin_deleteFlights
 
 
 POPULATION
