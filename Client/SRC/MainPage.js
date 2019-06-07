@@ -1,6 +1,7 @@
 import React from 'react';
 import './MainPage.css';
-import User from './User.js'
+import User from './User.js';
+import Admin from './Admin.js';
 
 function MainPage () {
     return (
@@ -78,17 +79,6 @@ class Pilot extends React.Component {
 
     render() {
         return (<div> I'm a pilot </div>)
-    }
-}
-
-class Admin extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
-    render() {
-        return (<div> I'm an admin </div>)
     }
 }
 
