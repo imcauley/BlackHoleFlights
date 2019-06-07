@@ -4,8 +4,6 @@ Matt:
 -cascade in schema
 
 Isaac:
--test form
--multiple pages
 -page mockups
 -login
 
