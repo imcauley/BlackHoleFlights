@@ -2,6 +2,8 @@ import React from 'react';
 import './MainPage.css';
 import User from './User.js';
 import Admin from './Admin.js';
+import Pilot from './Pilot.js';
+import logo from './logo.svg'
 
 function MainPage () {
     return (
@@ -41,6 +43,8 @@ class TabHandler extends React.Component {
         return (
             <div>
             <div className='SideBar'>
+
+            <img className='logo' src={logo}/>
             {this.state.tabs.map((item, index) => (
                 <div onClick={this.handleClick} className='userButtonTab'>
                 <Tab text={item} key={index} id={item}/>
@@ -49,6 +53,7 @@ class TabHandler extends React.Component {
             <br/>
             <br/>
             <p className='sideBarText'> Logout </p>
+
             </div>
             <div className='Page'>
             {page}
@@ -66,19 +71,6 @@ class Tab extends React.Component {
 
     render() {
         return (<div id={this.props.id} className='sideBarText'> {this.props.text} </div>)
-    }
-}
-
-
-
-class Pilot extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
-    render() {
-        return (<div> I'm a pilot </div>)
     }
 }
 

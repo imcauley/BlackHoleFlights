@@ -4,8 +4,7 @@ class SideBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          tabs: ['User', 'Pilot', 'Admin'],
-          active: 'User'
+          active: this.props.defaultActive
         };
         this.handleClick = this.handleClick.bind(this);
     }
@@ -16,29 +15,23 @@ class SideBar extends React.Component {
 
     render() {
         var page;
-        if(this.state.active == 'User') {
-            page = <User/>;
-        }
-        else if(this.state.active == 'Pilot') {
-            page = <Pilot/>;
-        }
-        else if(this.state.active == 'Admin') {
-            page = <Admin/>;
-        }
+        page = this.props.mapper[this.state.active];
 
         return (
             <div>
-            <div className='SideBar'>
-            {this.state.tabs.map((item, index) => (
+            <div className={this.props.className} className='subBar'>
+            
+            {this.props.tabs.map((item, index) => (
                 <div onClick={this.handleClick} className='userButtonTab'>
                 <Tab text={item} key={index} id={item}/>
                 </div>
               ))}
-            <br/>
-            <br/>
-            <p className='sideBarText'> Logout </p>
             </div>
-            <div className='Page'>
+
+            <br/>
+            <br/>
+
+            <div className='content'>
             {page}
             </div>
             </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import SideBar from './SideBar';
 
 class Admin extends React.Component {
     constructor(props) {
@@ -9,8 +10,19 @@ class Admin extends React.Component {
     render() {
         return (
         <div className='mainPage'> 
-        <p> I'm an admin </p>
-        <DestinationForm/>
+        <div className='mainPage'> 
+        <p> I'm a pilot </p>
+        <SideBar
+            className='pilotSideBar'
+            tabs={['Add Destination', 'Assign Pilots']} 
+            defaultActive='Add Destination'
+            mapper={{
+                'Add Destination': (<DestinationForm/>), 
+                'Assign Pilots': (<p> add page </p>)
+            }}
+        />
+        </div>
+        
         </div>)
     }
 }
