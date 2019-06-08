@@ -59,8 +59,45 @@ app.get("/get_paths", (req, res, next) => {
 
 });
 
+app.get("/get_flights_for_pilot", (req, res, next) => {
+
+  var params = req.query;
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.json({"data": params.test});  
+
+  // con.query('SELECT * FROM User', (error, results, fields) => {
+  //   if (error) throw error;
+
+  //   data = results[0].username;
+
+  //   res.setHeader('Access-Control-Allow-Origin', '*');
+  //   res.json({"first_user": data});
+  // });
+
+});
+
+app.get("/get_tickets_for_passenger", (req, res, next) => {
+
+  var params = req.query;
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.json({"data": params.test});  
+
+  // con.query('SELECT * FROM User', (error, results, fields) => {
+  //   if (error) throw error;
+
+  //   data = results[0].username;
+
+  //   res.setHeader('Access-Control-Allow-Origin', '*');
+  //   res.json({"first_user": data});
+  // });
+
+});
+
 app.post("/add_destination", (req, res, next) => {
 
+  checkAllKeys(req.body, [name, x, y, z]);
   processUserInput(req.body.name);
 
   var query = `
