@@ -3,27 +3,28 @@ b - buyer
 p - pilot
 
 GET
-b get_trips(source, dest)
-b get_flight(flight_id)
-p get_assigned_flights()
-a get_all_flights()
+b get_trips(source, destination, date)
+b get_flight(flightNo)
+p get_assigned_flights(pilotID, date)
+a get_all_flights(date)
 
 POST
-b buy_flight(flight_id)
-b cancel_flight(flight_id)
-b add_luggage(...)
-b sign-up(...)
-b log-in(...)
+b buy_ticket(ticketPrice, seat, ticketID, ownerID, flightID)
+b cancel_ticket(ticketID)
+b add_baggage(ticketID, weight, bagNumber)
+b sign_up_as_passenger(userID, username, password, email, phoneNumber)
+b/a/p    log_in(username, password)
 
-a add_flight(..)
-a add_pilot_to_flight(...)
-a add_spaceship(...)
-a add_location(...)
-a add_admin(...)
-a add_pilot(...)
+a add_flight(flightID, departureTime, arrivalTime, seatsLeft, totalDistance, adminID, departure, arrival, shipID, pilotID)
+a add_pilot_to_flight(flightID, pilotID)
+a add_spaceshipmodel(modelNumber, modelName, numberofSeats, manufacturerName)
+a add_spaceship(serialNo, distanceTravelled, activeStatus, model)
+a add_destination(planetID, planetName, SGX, SGY, SGZ)
+a add_admin(userID, username, password, email, phoneNumber)
+a add_pilot(userID, username, password, email, phoneNumber, salary, homeBase)
 p add_pilot_to_flight(...)
-a delete_ticket
-a admin_deleteFlights
+a delete_ticket       -> see cancel_ticket(ticketID)
+a delete_flight(flightID)
 
 
 POPULATION
