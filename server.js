@@ -33,6 +33,56 @@ app.get("/api_test", (req, res, next) => {
 });
 
 
+
+app.get("/get_flight", cors(), function(req, res) {
+
+    //may have to change this..., I adjusted from params to body.
+    let flightNo = req.body.flightNo;
+
+
+    //todo calculate seats left
+    let sql = "SELECT	F.flightID, F.departureTime, F.arrivalTime, " +
+        "F.totalDistance, F.departure, F.arrival, M.modelName FROM	Flight AS F, SpaceShip AS S, " +
+        "SpaceShipModel AS M WHERE	F.flightID = " + con.escape(flightNo) + " AND F.ship = S.serialNumber AND " +
+        "M.modelNumber = S.model;";
+
+    con.query(sql, (error, result, fields) => {
+        if (error) throw error;
+        data = result;
+        res.json({"flight info": data});
+    });
+
+
+});
+
+
+app.post("/add_flight", cors(), function(req, res) {
+    let departureTime = req.body.departureTime;
+    let arrivalTime = req.body.arrivalTime;
+    let totalDistance = req.body.totalDistance;
+    let adminID = req.body.adminID;
+    var departure = req.body.departure;
+    var arrival = req.body.arrival;
+    var shipID = req.body.shipID;
+    var pilotID = req.body.pilotID;
+
+    let sql = "INSERT INTO Flight (`DepartureTime`, `ArrivalTime`, `totalDistance`, `pilot`, `Departure`, `Arrival`, `ship`, `createdBy`)" +
+        "VALUES	( " + con.escape(departureTime)
+        + " , " + con.escape(arrivalTime) + " , " + con.escape(totalDistance)
+        + " , " + con.escape(pilotID) + " , " + con.escape(departure) + " , " + con.escape(arrival) + " , " + con.escape(shipID)
+        + " , " + con.escape(adminID) + ")";
+
+    con.query(sql, (error, result, fields) => {
+        if (error) throw error;
+        data = result;
+        res.json({"flight info": data});
+    });
+
+
+});
+
+
+
 app.get("/db_test", (req, res, next) => {
 
     con.query('SELECT * FROM User', (error, results, fields) => {

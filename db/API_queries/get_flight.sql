@@ -5,9 +5,9 @@ Returns the flight information for a specific flight
 
 /*
 app.get("get_flight", cors(), function(req, res) {
-  var flightNo = req.params.flightNo;
+  let flightNo = req.params.flightNo;
 
-  var sql = "...";
+  let sql = "";
   connection.query(sql, flightNo , function(err, rows, fields) {
   })
 });

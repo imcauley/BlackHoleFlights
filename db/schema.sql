@@ -73,7 +73,7 @@ CREATE TABLE TrainedFor
 
 CREATE TABLE Flight
 (
-  flightID int(11) NOT NULL,
+  flightID int(11) NOT NULL AUTO_INCREMENT,
   departureTime datetime NOT NULL,
   arrivalTime datetime NOT NULL,
   totalDistance int(11) NOT NULL,
@@ -89,6 +89,10 @@ CREATE TABLE Flight
   FOREIGN KEY (ship) REFERENCES SpaceShip(serialNumber) ON DELETE CASCADE,
   FOREIGN KEY (pilot) REFERENCES Pilot(id) ON DELETE CASCADE
 );
+
+
+
+
 
 CREATE TABLE Ticket
 (
@@ -110,6 +114,20 @@ CREATE TABLE Baggage
   FOREIGN KEY (ticket) REFERENCES Ticket(TicketID) ON DELETE CASCADE
 );
 
+
+INSERT INTO Flight
+  (`DepartureTime`, `ArrivalTime`, `totalDistance`, `pilot`, `Departure`, `Arrival`, `ship`, `createdBy`)
+VALUES
+  ('2020-01-01 23:59', '2020-01-01 23:59', '100', '1', '1', '11', '1', '4'),
+  ('2021-05-01 23:59', '2021-05-01 23:59', '200', '2', '2', '12', '2', '5'),
+  ('2022-01-01 23:59', '2022-01-01 23:59', '300', '3', '3', '13', '3', '6'),
+  ('2020-01-01 23:59', '2020-01-01 23:59', '400', '1', '4', '14', '4', '4'),
+  ('2021-05-01 23:59', '2021-05-01 23:59', '500', '2', '5', '15', '5', '5'),
+  ('2022-01-01 23:59', '2022-01-01 23:59', '600', '3', '6', '16', '6', '6'),
+  ('2020-01-01 23:59', '2020-01-01 23:59', '700', '1', '7', '17', '7', '4'),
+  ('2021-05-01 23:59', '2021-05-01 23:59', '800', '2', '8', '18', '8', '5'),
+  ('2022-01-01 23:59', '2022-01-01 23:59', '900', '3', '9', '19', '9', '6'),
+  ('2020-01-01 23:59', '2020-01-01 23:59', '1000', '1', '9', '20', '9', '6');
 
 INSERT INTO User
 (`id`, `username`, `password`, `email`, `phoneNumber`)
@@ -137,6 +155,15 @@ VALUES
 ('4'),
 ('5'),
 ('6');
+
+
+INSERT INTO Pilot
+(`ID`, `salary`, `homeBase` )
+VALUES
+('1','1000','1'),
+('2','2000','2'),
+('3','3000','3');
+
 
 
 

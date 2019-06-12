@@ -3,8 +3,7 @@ Admin add_flight(flightID, departureTime, arrivalTime, seatsLeft, totalDistance,
 Creates a new flight*/
 
 /*
-app.get("add_flight", cors(), function(req, res) {
-  var flightID = req.params.flightID;
+app.post("/add_flight", cors(), function(req, res) {
   var departureTime = req.params.departureTime;
   var arrivalTime = req.params.arrivalTime;
   var seatsLeft = req.params.seatsLeft;
