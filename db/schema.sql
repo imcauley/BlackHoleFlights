@@ -115,6 +115,8 @@ CREATE TABLE Baggage
 );
 
 
+
+
 INSERT INTO Flight
   (`DepartureTime`, `ArrivalTime`, `totalDistance`, `pilot`, `Departure`, `Arrival`, `ship`, `createdBy`)
 VALUES
