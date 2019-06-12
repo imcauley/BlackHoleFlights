@@ -7,10 +7,10 @@ var express = require('express'),
   port = process.env.PORT || 3000;
 
 const con = mysql.createConnection({
-  host: "104.198.156.225\"",
+  host: "localhost",
   user: "root",
-  password: "password",
-  database: "cpsc471"
+  password: "",
+  database: "blackhole"
 });
 
 
@@ -46,7 +46,68 @@ app.get("/get_paths", (req, res, next) => {
   var params = req.query;
 
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.json({"data": params.test});  
+  res.json(
+    {
+    status: 200,
+    trips: [
+    {
+      source: "Earth",
+      destination: "Mars",
+      flights: [
+        {
+          year:"2020",
+          month:"09",
+          day:"20",
+          flight_number:"56376324",
+          source:"Earth",
+          dest:"Venus",
+          dep_hour:"20",
+          dep_minute:"15",
+          seats_left:"7"
+        },
+        {
+          year:"2020",
+          month:"09",
+          day:"20",
+          flight_number:"2343212304",
+          source:"Venus",
+          dest:"Mars",
+          dep_hour:"20",
+          dep_minute:"15",
+          seats_left:"3"
+        },
+      ]
+    },
+    {
+      source: "Earth",
+      destination: "Mars",
+      flights: [
+        {
+          year:"2020",
+          month:"09",
+          day:"20",
+          flight_number:"2343223404",
+          source:"Earth",
+          dest:"Venus",
+          dep_hour:"19",
+          dep_minute:"15",
+          seats_left:"7"
+        },
+        {
+          year:"2020",
+          month:"09",
+          day:"20",
+          flight_number:"2343435804",
+          source:"Venus",
+          dest:"Mars",
+          dep_hour:"20",
+          dep_minute:"17",
+          seats_left:"3"
+        },
+      ]
+    }
+    ]}
+  );  
 
   // con.query('SELECT * FROM User', (error, results, fields) => {
   //   if (error) throw error;
@@ -82,7 +143,26 @@ app.get("/get_tickets_for_passenger", (req, res, next) => {
   var params = req.query;
 
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.json({"data": params.test});  
+  res.json({
+    "status:": 200,
+    "tickets": [
+      {
+        seat: 24,
+        ticketID: 23423,
+        flight_number: 567313
+      },
+      {
+        seat: 23,
+        ticketID: 2456,
+        flight_number: 534523
+      },
+      {
+        seat: 8,
+        ticketID: 234643,
+        flight_number: 324513
+      }
+    ]
+  });  
 
   // con.query('SELECT * FROM User', (error, results, fields) => {
   //   if (error) throw error;
@@ -142,6 +222,8 @@ app.post("/add_spaceship_model", (req, res, next) => {
   });
 
 });
+
+
 
 function processUserInput(input) {
   //TODO
