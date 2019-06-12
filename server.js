@@ -285,6 +285,8 @@ app.get("/get_tickets_for_passenger", (req, res, next) => {
 
     var params = req.query;
   
+    //PARAMETERS: {user_id: int}
+
     //FORMAT
     // {
     // "status:": 200,
@@ -326,6 +328,8 @@ app.get("/get_trips", function(req, res) {
     let destination = req.body.destination;
     let date = req.body.date;
 
+    //Parameters: {source: string, dest: string, date:int:int:int}
+    //date is a string with three ints sperated by colons: year:month:day
     //Format:
     //{
     // status: 200,
