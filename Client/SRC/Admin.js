@@ -14,11 +14,13 @@ class Admin extends React.Component {
         <p> I'm a pilot </p>
         <SideBar
             className='pilotSideBar'
-            tabs={['Add Destination', 'Assign Pilots']} 
+            tabs={['Add Destination', 'Assign Pilots', 'Add Pilots', 'Add Admins']} 
             defaultActive='Add Destination'
             mapper={{
                 'Add Destination': (<DestinationForm/>), 
-                'Assign Pilots': (<p> add page </p>)
+                'Assign Pilots': (<p> add page </p>),
+                'Add Pilots': (<p> add page </p>),
+                'Add Admins': (<p> add page </p>)
             }}
         />
         </div>
@@ -35,7 +37,8 @@ class DestinationForm extends React.Component {
         x: '',
         y: '',
         z: '',
-        submitted: false
+        submitted: false,
+        submit_error: false
     };
   
       this.handleChange = this.handleChange.bind(this);
@@ -77,6 +80,9 @@ class DestinationForm extends React.Component {
     render() {
       if(!this.state.submitted) {
         return (
+          <div className="mainContent">
+          Add A Destination:
+          <br/>
           <form onSubmit={this.handleSubmit}>
             <label>
               Name:
@@ -85,26 +91,27 @@ class DestinationForm extends React.Component {
             </label>
             <label>
               X Coordinate:
-              <input name='x' type="text" value={this.state.x} onChange={this.handleChange}/>
+              <input name='x' type="number" value={this.state.x} onChange={this.handleChange}/>
               <br/>
               </label>
             <label>
               Y Coordinate: 
-              <input name='y' type="text" value={this.state.y} onChange={this.handleChange}/>
+              <input name='y' type="number" value={this.state.y} onChange={this.handleChange}/>
               <br/>
               </label>
             <label>
               Z Coordinate:
-              <input name='z' type="text" value={this.state.z} onChange={this.handleChange}/>
+              <input name='z' type="number" value={this.state.z} onChange={this.handleChange}/>
               <br/>
               </label>
             <input type="submit" value="Submit" />
           </form>
+          </div>
         );
       }
       else {
         return (
-          <div> 
+          <div className='mainContent'> 
               Submitted new destination
               <button onClick={this.resetForm}> Add another </button>
           </div>

@@ -91,3 +91,38 @@ html {
     padding-bottom: 8px;
     width: 100%; 
 }
+
+.tripFinder {
+    font-size: 20px;
+    display: inline-block; 
+    float: none;
+    color: #282c34;
+    background-color: rgb(218, 214, 215);
+    width: 100%;
+    padding: 15px;
+}
+
+.formError {
+    background-color: #cc4c4c;    
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 100%; 
+    font-size: 25px;
+}
+
+.viewMoreButton {
+    float:right;
+}
+
+.mainContent {
+    font-size: 20px;
+    color: #282c34;
+    background-color: rgb(218, 214, 215);
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 100%; 
+}
