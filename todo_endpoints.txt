@@ -1,0 +1,8 @@
+
+Endpoints Needed:
+buyTicketsForTrip(user_id, [flight_id])
+signUpForFlight(user_id or username, flight_id)
+                check for either
+
+makeUserPilot(username)
+makeUserAdmin(username)
