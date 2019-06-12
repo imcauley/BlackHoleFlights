@@ -3,6 +3,8 @@ import DestinationSelector from './DestinationSelector';
 import SideBar from './SideBar';
 import FlightInfo from './FlightInfo';
 
+var API_URL = 'http://127.0.0.1:3000';
+
 class User extends React.Component {
     constructor(props) {
         super(props);
@@ -19,7 +21,7 @@ class User extends React.Component {
             tabs={['Look Up Flights', 'My Tickets']} 
             mapper={{
                 'Look Up Flights': (<LookFlights/>), 
-                'My Tickets': (<p> add page </p>)
+                'My Tickets': (<LookTickets/>)
             }}
         />
         </div>
@@ -31,7 +33,51 @@ class LookTickets extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {}
+    this.state = {
+      ticket_list: [],
+      tickets: [],
+      error: false
+    }
+
+    this.get_tickets(); 
+  }
+
+  get_tickets() {
+    var user_id = 1;
+    fetch(`${API_URL}/get_tickets_for_passenger/?user_id=${user_id}`)
+    .then(res => res.json())
+    .then(
+      (result) => {
+
+        var tempTickets = [];
+        for (const [index, element] of result.tickets.entries()) {
+          tempTickets.push(
+            <TicketInfo 
+            key={index}
+            {...element}
+          />)
+        }
+
+        this.setState({
+          error: false,
+          ticket_list: result.tickets,
+          tickets: tempTickets
+        });
+
+      },
+      (error) => {
+        this.setState({
+          error: true
+        });
+      }
+    )
+  }
+
+  render() {
+      return(<div>
+        <div className='mainHeader'> Your Tickets: </div>
+        {this.state.tickets}
+      </div>)
   }
 }
 
@@ -65,7 +111,7 @@ class LookFlights extends React.Component {
       }
     
       handleToChange(event) {
-        this.setState({[event.target.name]: event.target.value});
+        this.setState({to: event.target.value});
       }
 
       handleDateChange(event) {
@@ -73,7 +119,45 @@ class LookFlights extends React.Component {
       }
     
       handleSubmit(event) {
+        console.log(this.state);
+
         event.preventDefault();
+        if(this.state.from === '') {
+          this.setState({
+            form_error: true,
+            trips: []
+          });
+          return;
+        }
+        if(this.state.to === '') {
+          this.setState({
+            form_error: true,
+            trips: []
+          });
+          return;
+        }
+        if(this.state.year === 0) {
+          this.setState({
+            form_error: true,
+            trips: []
+          });
+          return;
+        }
+        if(this.state.month === 0) {
+          this.setState({
+            form_error: true,
+            trips: []
+          });
+          return;
+        }
+        if(this.state.day === 0) {
+          this.setState({
+            form_error: true,
+            trips: []
+          });
+          return;
+        }
+
         this.getTrips();
         //ADD this in with the request
         // this.setState({form_error: true});
@@ -85,7 +169,7 @@ class LookFlights extends React.Component {
       }
 
       getTrips() {
-        fetch('http://127.0.0.1:3000/get_paths/')
+        fetch(`${API_URL}/get_paths/?source=${this.state.from}&dest=${this.state.to}&date=${this.state.year}:${this.state.month}:${this.state.day}`)
         .then(res => res.json())
         .then(
           (result) => {
@@ -109,40 +193,11 @@ class LookFlights extends React.Component {
           },
           (error) => {
             this.setState({
-              form_error: true
+              form_error: true,
+              trips: []
             });
           }
         )
-        // this.setState({trips: [
-        //   <TripInfo
-        //   onBuy={this.handleBuy}
-        //   key='0'
-        //   source="Earth"
-        //   dest="Mars"
-        //   flights={[
-        //       <FlightInfo/>,
-        //       <FlightInfo/>
-        //   ]}/>,
-        //   <TripInfo
-        //   onBuy={this.handleBuy}
-        //   key='1'
-        //   source="Earth"
-        //   dest="Mars"
-        //   flights={[
-        //       <FlightInfo
-        //         year="2020"
-        //         month="09"
-        //         day="20"
-        //         flight_number="234329804"
-        //         source="Earth"
-        //         dest="Mars"
-        //         dep_hour="20"
-        //         dep_minute="15"
-        //         seats_left="7"
-        //         />
-        //   ]}/>
-
-        // ]})
       }
     
       render() {
@@ -201,20 +256,9 @@ class TripInfo extends React.Component {
     constructor(props) {
         super(props);
         var flightViews = [];
-        // console.log(this.props.flights);
         this.props.flights.forEach(element => {
           flightViews.push(
-            <FlightInfo
-            year={element.year}
-            month={element.month}
-            day={element.day}
-            flight_number={element.flight_number}
-            source={element.source}
-            dest={element.dest}
-            dep_hour={element.dep_hour}
-            dep_minute={element.dep_minute}
-            seats_left={element.seats_left}
-            />
+            <FlightInfo {...element}/>
           )
         });
 
@@ -262,7 +306,22 @@ class TripInfo extends React.Component {
 }
 
 class TicketInfo extends React.Component {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+    }
+  }
+
+  render() {
+    return(<div className='mainRow'>
+      Ticket Number: {this.props.ticketID}
+      <br/>
+      Seat Number: {this.props.seat}
+      <br/>
+      Flight Number: {this.props.flight_number}
+    </div>)
+  }
 }
 
 
