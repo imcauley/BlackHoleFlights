@@ -325,8 +325,12 @@ app.get("/get_tickets_for_passenger", (req, res, next) => {
 app.get("/get_trips", function(req, res) {
 
     let source = req.body.source;
-    let destination = req.body.destination;
-    let date = req.body.date;
+    let destination = req.body.dest;
+    let dateString = req.body.date.split(":");
+
+    let date = dateString[0] + "-" + dateString[1] + "-" + dateString[2] + " 00:00";
+
+    console.log(date);
 
     //Parameters: {source: string, dest: string, date:int:int:int}
     //date is a string with three ints sperated by colons: year:month:day
@@ -364,14 +368,30 @@ app.get("/get_trips", function(req, res) {
     // }...}
 
     //todo calculate seats left
-    let sql = "SELECT	F.flightID, F.departureTime, F.arrivalTime, F.seatsLeft, F.totalDistance, F.departure, F.arrival," +
+    let sql = "SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival," +
         " M.modelName FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M WHERE F.departure = " + con.escape(source) + " " +
-        "AND F.arrival = " + con.escape(destination) + " AND F.departureTime >= " + con.escape(date) + " AND F.ship = S.serialNumber AND M.modelNumber = S.model;";
+        "AND F.arrival = " + con.escape(destination) + " AND F.departureTime >= " + con.escape(date) + " AND F.ship = S.serialNumber AND M.modelNumber = S.model " +
+        ";";
 
     con.query(sql, (error, result, fields) => {
         if (error) throw error;
-        data = result;
-        res.json({"get trips info": data});
+       let data = result;
+        let dataFormatted;
+
+        for(let i = 0; i < data.length; i++) {
+
+            let obj = data[i];
+
+            let dateDeparture = obj.departureTime.toString();
+            let dateArrival = obj.arrivalTime.getFullYear();
+            console.log("ducky");
+    /*        console.log(dateArrival);
+            dataFormatted.trips.source =  data[i].departure;
+            dataFormatted.trips.source =  data[i].arrival;
+             dataFormatted.trips.flights[i].year = obj.arrivalTime.getFullYear();*/
+        }
+
+        res.json({"trips": data});
     });
 
 });
