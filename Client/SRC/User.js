@@ -86,17 +86,19 @@ class LookFlights extends React.Component {
         super(props);
 
         this.default = {  
-          from: '',
-          to: '',
-          values: ['-', 'Earth', 'Mars', 'Venus'],
+          from: -1,
+          to: -1,
           year: 0,
           month: 0,
           day: 0,
           form_error: false,
           trips_list: [],
-          trips: []
+          trips: [],
+          destinations: []
         };
     
+        this.getDestinations();
+
         this.state = this.default;
 
         this.handleFromChange = this.handleFromChange.bind(this);
@@ -120,16 +122,15 @@ class LookFlights extends React.Component {
     
       handleSubmit(event) {
         console.log(this.state);
-
         event.preventDefault();
-        if(this.state.from === '') {
+        if(this.state.from === -1) {
           this.setState({
             form_error: true,
             trips: []
           });
           return;
         }
-        if(this.state.to === '') {
+        if(this.state.to === -1) {
           this.setState({
             form_error: true,
             trips: []
@@ -168,6 +169,27 @@ class LookFlights extends React.Component {
         // this.setState({language: langValue});
       }
 
+      getDestinations() {
+        fetch(`${API_URL}/get_all_destinations`)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log(result.destinations[0].id);
+            result.destinations.unshift({planetName: '-', id:-1})
+            this.setState({
+              form_error: false,
+              destinations: result.destinations
+            });
+          },
+          (error) => {
+            this.setState({
+              form_error: true,
+              destinations: []
+            });
+          }
+        )
+      }
+    
       getTrips() {
         fetch(`${API_URL}/get_paths/?source=${this.state.from}&dest=${this.state.to}&date=${this.state.year}:${this.state.month}:${this.state.day}`)
         .then(res => res.json())
@@ -214,8 +236,8 @@ class LookFlights extends React.Component {
             <label>
               From: 
               <select value={this.state.value} onChange={this.handleFromChange}>
-                {this.state.values.map((item, index) => (
-                <option value={item} key={index}>{item}</option>
+                {this.state.destinations.map(item => (
+                <option value={item.id} key={item.id}> {item.planetName} </option>
                 ))}
               </select>
             </label>
@@ -223,8 +245,8 @@ class LookFlights extends React.Component {
             <label>
               To: 
               <select value={this.state.value} onChange={this.handleToChange}>
-                {this.state.values.map((item, index) => (
-                <option value={item} key={index}>{item}</option>
+                {this.state.destinations.map(item => (
+                <option value={item.id} key={item.id}> {item.planetName} </option>
                 ))}
               </select>
             </label>
