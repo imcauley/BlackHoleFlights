@@ -322,7 +322,25 @@ app.get("/get_tickets_for_passenger", (req, res, next) => {
   
   });
 
-app.get("/get_trips", function(req, res) {
+
+
+app.get("/get_seats_left", function(req, res) {
+
+    let flightID = req.body.flightID;
+
+    let sql = "SELECT (SELECT    M.numberofSeats FROM    SpaceShip AS S, SpaceShipModel AS M, Flight AS F " +
+        "WHERE    S.model = M.modelNumber AND F.ship = S.serialNumber AND F.flightID = " + con.escape(flightID) + ") - " +
+        "(SELECT    COUNT(*) AS numSeats FROM    Ticket AS T, Flight AS F WHERE  T.flight = F.flightID AND F.flightID = " + flightID + ") AS seatsLeft;";
+
+    con.query(sql, (error, result, fields) => {
+        if (error) throw error;
+        data = result;
+        res.json({"get seats left": data});
+    });
+
+});
+
+    app.get("/get_trips", function(req, res) {
 
     let source = req.body.source;
     let destination = req.body.dest;
@@ -343,9 +361,9 @@ app.get("/get_trips", function(req, res) {
     //   destination: "Mars",
     //   flights: [
     //     {
-    //       year:"2020",
-    //       month:"09",
-    //       day:"20",
+    //       dep_year:"2020",
+    //       dep_month:"09",
+    //       dep_day:"20",
     //       flight_number:"56376324",
     //       source:"Earth",
     //       dest:"Venus",
@@ -367,6 +385,7 @@ app.get("/get_trips", function(req, res) {
     //   ]
     // }...}
 
+   
     //todo calculate seats left
     let sql = "SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival," +
         " M.modelName FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M WHERE F.departure = " + con.escape(source) + " " +
@@ -376,30 +395,42 @@ app.get("/get_trips", function(req, res) {
     con.query(sql, (error, result, fields) => {
         if (error) throw error;
        let data = result;
-        let dataFormatted;
+       let source = 0;
+
+
+       var dataFormatted = {
+            status : "200",
+            trips : [{
+                source : '0',
+                destination : '1',
+                flights : [{
+
+                }],
+           }],
+        };
 
         for(let i = 0; i < data.length; i++) {
-
             let obj = data[i];
+            dataFormatted.trips[0].source = obj.departure;
+            dataFormatted.trips[0].destination = obj.arrival;
 
-            let dateDeparture = obj.departureTime.toString();
-            let dateArrival = obj.arrivalTime.getFullYear();
-            console.log("ducky");
-    /*        console.log(dateArrival);
-            dataFormatted.trips.source =  data[i].departure;
-            dataFormatted.trips.source =  data[i].arrival;
-             dataFormatted.trips.flights[i].year = obj.arrivalTime.getFullYear();*/
+            dataFormatted.trips[0].flights.push({
+                    "flight_number":obj.flightID,
+                    "dep_year": obj.departureTime.getFullYear(),
+                    "dep`_month" : obj.departureTime.getMonth(),
+                    "dep_hour" : obj.departureTime.getDay(),
+                    "dep_minute" : obj.departureTime.getUTCHours(),
+                    "arr_year" :obj.arrivalTime.getFullYear(),
+                    "arr_month" : obj.arrivalTime.getMonth(),
+                    "arr_hour" : obj.arrivalTime.getUTCHours(),
+                    "arr_minute" : obj.arrivalTime.getUTCMinutes()
+            });
         }
 
-        res.json({"trips": data});
+        res.json({"formated": dataFormatted});
     });
 
 });
-
-
-
-
-
 
 
 
