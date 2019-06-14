@@ -88,8 +88,10 @@ class DestinationForm extends React.Component {
     render() {
       if(!this.state.submitted) {
         return (
+          <div>
+          <div className='mainHeader'> Add Destination: </div>
+
           <div className="mainContent">
-          Add A Destination:
           <br/>
           <form onSubmit={this.handleSubmit}>
             <label>
@@ -114,6 +116,7 @@ class DestinationForm extends React.Component {
               </label>
             <input type="submit" value="Submit" />
           </form>
+          </div>
           </div>
         );
       }
@@ -232,8 +235,9 @@ class ViewGoldCustomers extends React.Component {
   }
 
   render() {
-    console.log(this.state)
-    return (<div> {this.state.userRows} </div>)
+    return (<div> 
+      <div className='mainHeader'> Gold Status Users: </div>
+      {this.state.userRows} </div>)
   }
 }
 export default Admin;

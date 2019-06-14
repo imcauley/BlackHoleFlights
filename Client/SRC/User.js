@@ -19,6 +19,7 @@ class User extends React.Component {
         <SideBar
             className='pilotSideBar'
             tabs={['Look Up Flights', 'My Tickets']} 
+            defaultActive='Look Up Flights'
             mapper={{
                 'Look Up Flights': (<LookFlights/>), 
                 'My Tickets': (<LookTickets/>)
@@ -231,6 +232,7 @@ class LookFlights extends React.Component {
 
         return (
           <div>
+            <div className='mainHeader'> Find Trips: </div>
           <div className='tripFinder'>
           <form onSubmit={this.handleSubmit}>
             <label>
