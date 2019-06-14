@@ -11,10 +11,10 @@ const customers = require('./app/routes/customers');
 const pilots = require('./app/routes/pilots');
 
 const con = mysql.createConnection({
-    host: "104.198.156.225",
+    host: "localhost",
     user: "root",
-    password: "password",
-    database: "cpsc471"
+    password: "",
+    database: "blackhole"
 });
 
 
@@ -322,7 +322,43 @@ app.get("/get_tickets_for_passenger", (req, res, next) => {
   
   });
 
+app.get("/login", function(req, res) {
 
+    let query = `SELECT id
+                FROM User
+                WHERE username = "${req.query.username}"
+                AND password = "${req.query.password}"`
+
+    con.query(query, (error, result, fields) => {
+        if (error) {res.json({status:400})}
+        else {
+            res.json({status:200, user_id: result[0].id})
+        }
+    });
+
+});
+
+
+app.get("/signup", function(req, res) {
+
+    let query1 = `SELECT id
+                FROM User
+                WHERE username = "${req.body.username}"
+                OR email = "${req.body.email}"`
+
+    let query2 = `INSERT INTO User
+                  (username, email, password, phoneNumber)
+                  VALUES ('${req.body.username}', '${req.body.email}', '${req.body.password}', ${req.body.phone_number})`
+
+    con.query(query1, (error, result, fields) => {
+        if (error) {
+            return false
+        }
+        else {
+            return true;
+        }
+        });
+});
 
 app.get("/get_seats_left", function(req, res) {
 
