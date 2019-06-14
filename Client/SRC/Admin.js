@@ -156,11 +156,13 @@ class ViewOpenFlights extends React.Component {
   }
 
   getFlights() {
+
       var user_id = 1;
       fetch(`${API_URL}/get_assigned_flights/?user_id=${user_id}`)
       .then(res => res.json())
       .then(
         (result) => {
+          if(result.status == 200) {
           var tempFlights = [];
           for (const [index, element] of result.flights.entries()) {
               tempFlights.push(
@@ -179,6 +181,7 @@ class ViewOpenFlights extends React.Component {
             flight_list: result.flights,
             flights: tempFlights
           });
+        }
         },
         (error) => {
           this.setState({
