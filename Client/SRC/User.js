@@ -2,6 +2,7 @@ import React from 'react';
 import DestinationSelector from './DestinationSelector';
 import SideBar from './SideBar';
 import FlightInfo from './FlightInfo';
+import { throws } from 'assert';
 
 var API_URL = 'http://127.0.0.1:3000';
 
@@ -256,11 +257,11 @@ class LookFlights extends React.Component {
             <label>
               Year:
             </label>
-              <input type="number" name="year" onChange={this.handleDateChange}/>
+              <input type="number" name="year" value={this.state.year} onChange={this.handleDateChange}/>
               Month:
-              <input type="number" name="month" onChange={this.handleDateChange}/>
+              <input type="number" name="month" value={this.state.month} onChange={this.handleDateChange}/>
               Day:
-              <input type="number" name="day" onChange={this.handleDateChange}/>
+              <input type="number" name="day" value={this.state.day} onChange={this.handleDateChange}/>
             
           </form>
     
