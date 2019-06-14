@@ -1,5 +1,12 @@
 import React from 'react';
 import SideBar from './SideBar';
+import FlightInfo from './FlightInfo';
+import UserRow from './UserRow';
+// import { EventEmitter } from 'events';
+// import { eventNames } from 'cluster';
+
+var API_URL = 'http://127.0.0.1:3000';
+
 
 class Admin extends React.Component {
     constructor(props) {
@@ -14,13 +21,14 @@ class Admin extends React.Component {
         <p> I'm a pilot </p>
         <SideBar
             className='pilotSideBar'
-            tabs={['Add Destination', 'Assign Pilots', 'Add Pilots', 'Add Admins']} 
+            tabs={['Add Destination', 'Assign Pilots', 'Add Pilots', 'Add Admins','Gold Tier Customers']} 
             defaultActive='Add Destination'
             mapper={{
                 'Add Destination': (<DestinationForm/>), 
-                'Assign Pilots': (<p> add page </p>),
+                'Assign Pilots': (<ViewOpenFlights/>),
                 'Add Pilots': (<p> add page </p>),
-                'Add Admins': (<p> add page </p>)
+                'Add Admins': (<p> add page </p>),
+                'Gold Tier Customers': (<ViewGoldCustomers/>)
             }}
         />
         </div>
@@ -120,4 +128,112 @@ class DestinationForm extends React.Component {
     }
 }
 
+class ViewOpenFlights extends React.Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+        pilot_username: "",
+        flight_number: -1
+      };
+      this.getFlights();
+
+      this.handleClick = this.handleClick.bind(this);
+      this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleClick(event) {
+      //Signup for flight
+      console.log(this.state);
+      // console.log(this.state.flight_list[event.target.value].flight_number);
+      // this.getFlights();
+  }
+
+  handleChange(event) {
+    this.setState({flight_number: event.target.name, pilot_username: event.target.value});
+  }
+
+  getFlights() {
+      var user_id = 1;
+      fetch(`${API_URL}/get_assigned_flights/?user_id=${user_id}`)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          var tempFlights = [];
+          for (const [index, element] of result.flights.entries()) {
+              tempFlights.push(
+                <div> 
+                    <FlightInfo key={index} {...element} />
+                    <form>
+                      <label> Pilot Username: </label>
+                      <input type="text" name={element.flight_number} onChange={this.handleChange}/>
+                    </form>
+                    <div className='flightButton'> <button onClick={this.handleClick}> Sign Pilot Up </button> </div>
+                </div>)
+            }
+
+          this.setState({
+            form_error: false,
+            flight_list: result.flights,
+            flights: tempFlights
+          });
+        },
+        (error) => {
+          this.setState({
+            form_error: true,
+            flights: []
+          });
+        }
+      )
+  }
+
+  render() {
+      return (
+      <div> 
+      <div className='mainHeader'> Open Flights </div>
+      {this.state.flights}
+      </div>)
+  }
+}
+
+class ViewGoldCustomers extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userRows: [],
+      users: []
+    };
+    this.getUsers();
+  }
+
+  getUsers() {
+    fetch(`${API_URL}/get_all_users/`)
+    .then(res => res.json())
+    .then(
+      (result) => {
+        console.log(result.users)
+        var tempUserRows = [];
+
+        tempUserRows = result.users.map((item, index) => (
+          <UserRow key={index} {...item} />
+        ))
+
+        this.setState({
+          users: result.users,
+          userRows: tempUserRows
+        });
+      },
+      (error) => {
+        this.setState({
+          form_error: true,
+          flights: []
+        });
+      }
+    )
+  }
+
+  render() {
+    console.log(this.state)
+    return (<div> {this.state.userRows} </div>)
+  }
+}
 export default Admin;
