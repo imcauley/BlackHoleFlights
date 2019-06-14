@@ -219,6 +219,25 @@ app.delete("/delete_flight", function(req, res) {
 });
 
 
+app.get("/get_all_destinations", function(req, res) {
+
+    let sql ="SELECT id, planetName FROM Destination;";
+
+    con.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        data = result;
+        res.status(400).json({"get_all_destinations": data});
+    });
+
+
+    //get_all_destinations() -> {status: int, destinations:[{planetName: string, id:int}]}
+
+
+
+
+});
+
+
 
 
 app.get("/get_all_flights", function(req, res) {
@@ -237,6 +256,8 @@ app.get("/get_all_flights", function(req, res) {
     });
 
 });
+
+
 
 
 app.get("/get_assigned_flights", function(req, res) {
@@ -327,18 +348,17 @@ function getSeatsLeft(flightID){
 
 
 
-    let sql = "SELECT (SELECT    M.numberofSeats FROM    SpaceShip AS S, SpaceShipModel AS M, Flight AS F " +
+    const getSeatsLeftsql = "SELECT (SELECT    M.numberofSeats FROM    SpaceShip AS S, SpaceShipModel AS M, Flight AS F " +
     "WHERE    S.model = M.modelNumber AND F.ship = S.serialNumber AND F.flightID = " + con.escape(flightID) + ") - " +
     "(SELECT    COUNT(*) AS numSeats FROM    Ticket AS T, Flight AS F WHERE  T.flight = F.flightID AND F.flightID = " + con.escape(flightID) + ") AS seatsLeft;";
 
 
-    con.query(sql, (error, result, fields) => {
+    con.query(getSeatsLeftsql, (error, result, fields) => {
         if (error) throw error;
        var data = result;
        console.log(data[0].seatsLeft);
 
     });
-
 
 }
 
@@ -432,7 +452,7 @@ app.get("/get_seats_left", function(req, res) {
             let x = getSeatsLeft(obj.flightID);
             console.log(x);
             dataFormatted.trips[0].flights.push({
-                    "seats_left" : x,
+                    "seats_left" : '10',
                     "flight_number":obj.flightID,
                     "dep_year": obj.departureTime.getFullYear(),
                     "dep`_month" : obj.departureTime.getMonth(),
