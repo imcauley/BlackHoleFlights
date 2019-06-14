@@ -1,15 +1,16 @@
 - = in progress
 + = done
+?, have to clarify how we want this setup.
 
 +login(username, password) -> {status: int, user_id: int}
 -signup(username: string, id: int, phone_number: int, email: string, password: string) -> {status: int, user_id: int}
--get_all_destinations() -> {status: int, destinations:[{planetName: string, id:int}]}
--get_gold_users() -> {status: int, users: [{username: string, id: int, phone_number: int, email: string}]}
++get_all_destinations() -> {status: int, destinations:[{planetName: string, id:int}]}
+?get_frequent_fliers(date:int:int:int) -> {status: int, users: [{username: string, id: int, phone_number: int, email: string, totalSpend: int}]}
 -get_not_pilots() -> {status: int, users: [{username: string, id: int, phone_number: int, email: string}]}
 -get_not_admins() -> {status: int, users: [{username: string, id: int, phone_number: int, email: string}]}
--get_tickets(user_id: int) -> {status: int, tickets: [{seat: int, ticketID: int, flight_number: int}]}
++get_tickets(user_id: int) -> {status: int, tickets: [{ticketID: int, flight_number: int}]} // REMOVED SEAT #
 -get_assigned_flights(user_id: int) -> {status: int, flights:{year: int, month: int, day: int, flight_number: int, source: string, dest: string, dep_hour: int, dep_minute: int, seats_left: int}}
 -get_unassigned_flights() -> {status: int, flights:{year: int, month: int, day: int, flight_number: int, source: string, dest: string, dep_hour: int, dep_minute: int, seats_left: int}}
--buy_flight(user_id: int) -> {status: int}
+-buy_ticket(user_id: int) -> {status: int} //changed from buy flight
 -assign_flight(user_id: int) -> {status: int} 
 -assign_flight(username: string) -> {status: int} //this isn't a mistake the endpoint needs to take one of these

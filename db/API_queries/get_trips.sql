@@ -13,6 +13,10 @@ app.get("get_trips", cors(), function(req, res) {
   })
 });
 */
-SELECT	F.flightID, F.departureTime, F.arrivalTime, F.seatsLeft, F.totalDistance, F.departure, F.arrival, M.modelName
-FROM	flight AS F, spaceship AS S, spaceshipmodel AS M
-WHERE	F.departure = " + source + " AND F.arrival = " + destination + " AND F.departureTime >= " + date + " AND F.ship = S.serialNumber AND M.modelNumber = S.model;
+SELECT	T.ticketID, F.flightID
+FROM	Flight AS F, User as U, Ticket as T
+WHERE	U.id = " + userID + "  AND F.flightID = T.flight AND U.id = T.owner;
+
+
+
+-get_tickets(user_id: int) -> {status: int, tickets: [{ticketID: int, flight_number: int}]}

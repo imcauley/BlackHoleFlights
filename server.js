@@ -263,11 +263,11 @@ app.get("/get_all_flights", function(req, res) {
 app.get("/get_assigned_flights", function(req, res) {
 
     //may have to change this..., I adjusted from params to body.
-    let pilotID = req.body.pilotID;
+    let ID = req.body.user_id;
     let date = req.body.date;
 
     let sql = " SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival, S.serialNumber, M.modelName " +
-   "FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M WHERE	F.pilot = " + con.escape(pilotID) + " AND F.departureTime >= " + con.escape(date) + " AND" +
+   "FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M WHERE	F.pilot = " + con.escape(ID) + " AND F.departureTime >= " + con.escape(date) + " AND" +
    " F.ship = S.serialNumber AND M.modelNumber = S.model;";
 
 
@@ -302,53 +302,47 @@ app.get("/get_flight", cors(), function(req, res) {
 
 });
 
-app.get("/get_tickets_for_passenger", (req, res, next) => {
+app.get("/get_tickets", (req, res, next) => {
+   // get_tickets(user_id: int) -> {status: int, tickets: [{ticketID: int, flight_number: int}]} // REMOVED SEAT #
 
-    var params = req.query;
-  
-    //PARAMETERS: {user_id: int}
+    let sql = "SELECT T.ticketID, F.flightID as flight_number FROM	Flight AS F, User as U, Ticket as T WHERE" +
+    "U.id =  " + con.escape(req.body.username) + "  AND F.flightID = T.flight AND U.id = T.owner;";
 
-    //FORMAT
-    // {
-    // "status:": 200,
-    // "tickets": [
-    //     {
-    //     seat: 24,
-    //     ticketID: 23423,
-    //     flight_number: 567313
-    //     },
-    //     {
-    //     seat: 23,
-    //     ticketID: 2456,
-    //     flight_number: 534523
-    //     },
-    //     {
-    //     seat: 8,
-    //     ticketID: 234643,
-    //     flight_number: 324513
-    //     }
-    // ]
-    // }
-    // res.setHeader('Access-Control-Allow-Origin', '*');
-    res.json([]);  
-  
-    // con.query('SELECT * FROM User', (error, results, fields) => {
-    //   if (error) throw error;
-  
-    //   data = results[0].username;
-  
-    //   res.setHeader('Access-Control-Allow-Origin', '*');
-    //   res.json({"first_user": data});
-    // });
+
+    con.query(sql, (error, result, fields) => {
+        if (error) {res.json({status:400})}
+        else {
+            res.json({status:200, tickets: result})
+        }
+    });
+
   
   });
+
+
+app.get("/get_frequent_fliers", (req, res, next) => {
+   // +get_frequent_fliers(date:int:int:int) -> {status: int, users: [{username: string, id: int, phone_number: int, email: string, totalSpend: int}]}
+
+    let sql = "SELECT T.ticketID, F.flightID as flight_number FROM	Flight AS F, User as U, Ticket as T WHERE" +
+        "U.id =  " + con.escape(req.body.username) + "  AND F.flightID = T.flight AND U.id = T.owner;";
+
+
+    con.query(sql, (error, result, fields) => {
+        if (error) {res.json({status:400})}
+        else {
+            res.json({status:200, tickets: result})
+        }
+    });
+
+
+});
 
 app.get("/login", function(req, res) {
 
     let query = `SELECT id
                 FROM User
-                WHERE username = "${req.query.username}"
-                AND password = "${req.query.password}"`
+                WHERE username = "${con.escape(req.query.username)}"
+                AND password = "${con.escape(req.query.password)}"`
 function getSeatsLeft(flightID){
 
     con.query(query, (error, result, fields) => {
@@ -358,7 +352,7 @@ function getSeatsLeft(flightID){
         }
     });
 
-});
+}});
 
 
 app.get("/signup", function(req, res) {
@@ -397,7 +391,7 @@ app.get("/get_seats_left", function(req, res) {
 
     });
 
-}
+});
 
 
 app.get("/get_seats_left", function(req, res) {
