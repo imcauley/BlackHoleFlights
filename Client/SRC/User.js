@@ -50,7 +50,6 @@ class LookTickets extends React.Component {
     .then(res => res.json())
     .then(
       (result) => {
-
         var tempTickets = [];
         for (const [index, element] of result.tickets.entries()) {
           tempTickets.push(
@@ -123,7 +122,6 @@ class LookFlights extends React.Component {
       }
     
       handleSubmit(event) {
-        console.log(this.state);
         event.preventDefault();
         if(this.state.from === -1) {
           this.setState({
@@ -176,7 +174,6 @@ class LookFlights extends React.Component {
         .then(res => res.json())
         .then(
           (result) => {
-            console.log(result.destinations[0].id);
             result.destinations.unshift({planetName: '-', id:-1})
             this.setState({
               form_error: false,

@@ -44,28 +44,34 @@ class LoginForm extends React.Component {
     }
 
     handleLogin(event) {
-        fetch(`${API_URL}/login`)
-        .then(res => res.json())
-        .then(
-        (result) => {
-            if(result.status == 200) {
-                cookies.set('user_id', result.user_id, { path: '/' });
-                this.setState({
-                    id: result.user_id
-                }); 
-            }
-            else {
+        if(this.state.username != "" && this.state.password != ""){ 
+            fetch(`${API_URL}/login?username=${this.state.username}&password=${this.state.password}`)
+            .then(res => res.json())
+            .then(
+            (result) => {
+                if(result.status == 200) {
+                    cookies.set('user_id', result.user_id, { path: '/' });
+                    this.setState({
+                        id: result.user_id
+                    }); 
+                }
+                else {
+                    this.setState({
+                        bad_login: true
+                    }); 
+                }
+            },
+            (error) => {
                 this.setState({
                     bad_login: true
-                }); 
+                });
             }
-        },
-        (error) => {
+            )
+        } else {
             this.setState({
                 bad_login: true
             });
         }
-        )
     }
 
     render() {
@@ -102,43 +108,46 @@ class SignUpForm extends React.Component {
       this.state = {
         username: "",
         password: "",
-        phone_number: "",
+        phone_number: -1,
         email: "",
         id: -1,
         bad_login: false
       };
 
       this.handleChange = this.handleChange.bind(this);
-      this.handleLogin = this.handleLogin.bind(this);
+      this.handleSignup = this.handleSignup.bind(this);
     }
 
     handleChange(event) {
         this.setState({[event.target.name]: event.target.value});
     }
 
-    handleLogin(event) {
-        fetch(`${API_URL}/signup`)
-        .then(res => res.json())
-        .then(
-        (result) => {
-            if(result.status == 200) {
-                cookies.set('user_id', result.user_id, { path: '/' });
-                this.setState({
-                    id: result.user_id
-                }); 
-            }
-            else {
-                this.setState({
-                    bad_login: true
-                }); 
-            }
-        },
-        (error) => {
-            this.setState({
-                bad_login: true
-            });
+    handleSignup(event) {
+        console.log()
+        if(this.state.username != "" && this.state.password != "" && this.state.email != "" && this.state.phone_number != -1) {
+            fetch(`${API_URL}/signup`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({
+                    ...this.state
+                })
+              })
+              .then(res => res.json())
+              .then(
+                (result) => {
+                    cookies.set('user_id', result.user_id, { path: '/' });
+                    this.setState({
+                        id: result.user_id
+                    }); 
+                })
         }
-        )
+        else{
+            this.setState({bad_login: true});
+        }
     }
 
     render() {
@@ -164,9 +173,9 @@ class SignUpForm extends React.Component {
             <input name='email' type="text" onChange={this.handleChange}/>
             <br/>
             <label> Phone: </label>
-            <input name='phone_number' type="text" onChange={this.handleChange}/>
+            <input name='phone_number' type="number" onChange={this.handleChange}/>
             </form>
-            <button onClick={this.handleLogin}> Sign Up </button>
+            <button onClick={this.handleSignup}> Sign Up </button>
 
             {bad_login_popup}
         </div>)
