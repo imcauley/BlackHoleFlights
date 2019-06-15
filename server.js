@@ -341,40 +341,62 @@ app.get("/login", function(req, res) {
 
     let query = `SELECT id
                 FROM User
-                WHERE username = "${con.escape(req.query.username)}"
-                AND password = "${con.escape(req.query.password)}"`
-function getSeatsLeft(flightID){
+                WHERE username = "${req.query.username}"
+                AND password = "${req.query.password}"`
 
     con.query(query, (error, result, fields) => {
-        if (error) {res.json({status:400})}
+        if (error) { res.json({status:400}) }
         else {
             res.json({status:200, user_id: result[0].id})
         }
     });
 
-}});
+});
 
 
-app.get("/signup", function(req, res) {
+app.post("/signup", function(req, res) {
+
+
+    console.log(req.body.username);
 
     let query1 = `SELECT id
                 FROM User
                 WHERE username = "${req.body.username}"
                 OR email = "${req.body.email}"`
 
-    let query2 = `INSERT INTO User
-                  (username, email, password, phoneNumber)
-                  VALUES ('${req.body.username}', '${req.body.email}', '${req.body.password}', ${req.body.phone_number})`
+    console.log(query1);
 
-    con.query(query1, (error, result, fields) => {
-        if (error) {
-            return false
-        }
+    let query2 = `INSERT INTO User
+                  (id, username, email, password, phoneNumber)
+                  VALUES (343555, '${req.body.username}', '${req.body.email}', '${req.body.password}', ${req.body.phone_number})`
+
+    let query3 = `SELECT id
+                    FROM User
+                    WHERE username = "${req.body.username}"
+                    AND password = "${req.body.password}"`
+
+    con.query(query1, (error1, result1) => {
+        if (error1 || result1.length > 0) { res.json({status:400}) }
         else {
-            return true;
+            console.log("here1");
+            con.query(query2, (error2, result2) => {
+                if (error2) { res.json({status:400}) }
+                else {
+                    console.log("here2");
+                    con.query(query3, (error3, result3) => {
+                        if (error3) { res.json({status:400}) }
+                        else {
+                            console.log("here3");
+                            res.json({status:200, user_id: result3[0].id})
+                        }
+                    });
+                }
+            });
         }
-        });
+    });
 });
+
+// function getSeatsLeft(flightID){
 
 app.get("/get_seats_left", function(req, res) {
 
@@ -390,23 +412,20 @@ app.get("/get_seats_left", function(req, res) {
        console.log(data[0].seatsLeft);
 
     });
-
 });
+
 
 
 app.get("/get_seats_left", function(req, res) {
 
-    let flightID = req.body.flightID;
-
-    data = getSeatsLeft(flightID);
-
-    res.json({"get seats left": data});
+//     res.json({"get seats left": data});
 
 
 
+// });
 });
 
-    app.get("/get_trips", function(req, res) {
+app.get("/get_trips", function(req, res) {
 
     let source = req.body.source;
     let destination = req.body.dest;
