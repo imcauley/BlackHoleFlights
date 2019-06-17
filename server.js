@@ -424,7 +424,7 @@ app.get("/get_user_type", (req, res, next) => {
         if (error1) {res.json({status:400})} else {
             con.query(sql2, (error2, result2, fields) => {
                 if (error2) {res.json({status:400})} else {
-                    res.json({status:200, is_admin:result1[0].count, is_pilot:result2[0].count})
+                    res.json({status:200, is_admin:result2[0].count, is_pilot:result1[0].count})
             }});
     }});
  
