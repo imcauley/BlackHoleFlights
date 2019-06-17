@@ -1,6 +1,8 @@
 import React from 'react';
 import SideBar from './SideBar';
 import FlightInfo from './FlightInfo';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 var API_URL = 'http://127.0.0.1:3000';
 
@@ -85,8 +87,27 @@ class ViewOpenFlights extends React.Component {
 
     handleClick(event) {
         //Signup for flight
-        console.log(this.state.flight_list[event.target.value].flight_number);
+        // console.log();
+        this.signUpForFlight(this.state.flight_list[event.target.value].flight_number);
+    }
+
+    signUpForFlight(flight_number) {
+      fetch('http://127.0.0.1:3000/add_pilot_to_flight', {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          flight_number: flight_number,
+          user_id: cookies.get('user_id')
+        })
+      })
+      .then(response => {
+        console.log(response);
         this.getFlights();
+      });
     }
 
     getFlights() {
