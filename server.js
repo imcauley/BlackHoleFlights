@@ -61,7 +61,7 @@ app.post("/add_baggage", function(req, res) {
     let sql =   "INSERT INTO Baggage (`weight`, `bagNumber`, `ticket`) VALUES " +
         "( " + con.escape(weight) + " , " + con.escape(bagNumber) + " , " + con.escape(ticketID) + " );";
 
-  
+
 
     con.query(sql, function (err, result, fields) {
         if (err)  {res.json({status:400})}
@@ -316,11 +316,28 @@ app.get("/get_assigned_flights", function(req, res) {
     con.query(sql, (error, result, fields) => {
         if (error)  {res.json({status:400})}
         data = result;
-        res.json({"status": 200, "flights": data});
+        let flights = [];
+        for(let i = 0; i < data.length; i++) {
+            let obj = data[i];
+            flights.push({
+                destination : obj.departure,
+                source" : obj.arrival,
+                flight_number :obj.flightID,
+                dep_year : obj.departureTime.getFullYear(),
+                dep_month : obj.departureTime.getMonth(),
+                dep_hour : obj.departureTime.getDay(),
+                dep_minute : obj.departureTime.getUTCHours(),
+                arr_year :obj.arrivalTime.getFullYear(),
+                arr_month : obj.arrivalTime.getMonth(),
+                arr_hour : obj.arrivalTime.getUTCHours(),
+                arr_minute : obj.arrivalTime.getUTCMinutes()
+            });
+        }
+
+        res.json({status: 200, flights});
     });
 
 });
-
 
 
 app.get("/get_unassigned_flights", function(req, res) {
@@ -336,17 +353,17 @@ app.get("/get_unassigned_flights", function(req, res) {
         for(let i = 0; i < data.length; i++) {
             let obj = data[i];
             flights.push({
-                "destination" : obj.departure,
-                "source" : obj.arrival,
-                "flight_number":obj.flightID,
-                "dep_year": obj.departureTime.getFullYear(),
-                "dep`_month" : obj.departureTime.getMonth(),
-                "dep_hour" : obj.departureTime.getDay(),
-                "dep_minute" : obj.departureTime.getUTCHours(),
-                "arr_year" :obj.arrivalTime.getFullYear(),
-                "arr_month" : obj.arrivalTime.getMonth(),
-                "arr_hour" : obj.arrivalTime.getUTCHours(),
-                "arr_minute" : obj.arrivalTime.getUTCMinutes()
+                destination : obj.departure,
+                source : obj.arrival,
+                flight_number :obj.flightID,
+                dep_year : obj.departureTime.getFullYear(),
+                dep_month : obj.departureTime.getMonth(),
+                dep_hour : obj.departureTime.getDay(),
+                dep_minute : obj.departureTime.getUTCHours(),
+                arr_year :obj.arrivalTime.getFullYear(),
+                arr_month : obj.arrivalTime.getMonth(),
+                arr_hour : obj.arrivalTime.getUTCHours(),
+                arr_minute : obj.arrivalTime.getUTCMinutes()
             });
         }
 
@@ -393,7 +410,7 @@ app.get("/get_tickets", (req, res, next) => {
         }
     });
 
-  
+
   });
 
 
@@ -544,7 +561,7 @@ app.get("/get_trips", function(req, res) {
 
     let date = dateString[0] + "-" + dateString[1] + "-" + dateString[2] + " 00:00";
 
-   
+
     //todo calculate seats left
     let sql = "SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival," +
         " M.modelName FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M WHERE F.departure = " + con.escape(source) + " " +
@@ -575,16 +592,16 @@ app.get("/get_trips", function(req, res) {
             let x = getSeatsLeft(obj.flightID);
             console.log(x);
             dataFormatted.trips[0].flights.push({
-                    "seats_left" : '10',
-                    "flight_number":obj.flightID,
-                    "dep_year": obj.departureTime.getFullYear(),
-                    "dep`_month" : obj.departureTime.getMonth(),
-                    "dep_hour" : obj.departureTime.getDay(),
-                    "dep_minute" : obj.departureTime.getUTCHours(),
-                    "arr_year" :obj.arrivalTime.getFullYear(),
-                    "arr_month" : obj.arrivalTime.getMonth(),
-                    "arr_hour" : obj.arrivalTime.getUTCHours(),
-                    "arr_minute" : obj.arrivalTime.getUTCMinutes()
+                    seats_left : '10',
+                    flight_number :obj.flightID,
+                    dep_year : obj.departureTime.getFullYear(),
+                    dep`_month : obj.departureTime.getMonth(),
+                    dep_hour : obj.departureTime.getDay(),
+                    dep_minute : obj.departureTime.getUTCHours(),
+                    arr_year :obj.arrivalTime.getFullYear(),
+                    arr_month : obj.arrivalTime.getMonth(),
+                    arr_hour : obj.arrivalTime.getUTCHours(),
+                    arr_minute : obj.arrivalTime.getUTCMinutes()
             });
         }
 
@@ -619,9 +636,9 @@ function get_current_date() {
     date = new Date();
     date = date.getUTCFullYear() + '-' +
         ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
-        ('00' + date.getUTCDate()).slice(-2) + ' ' + 
-        ('00' + date.getUTCHours()).slice(-2) + ':' + 
-        ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+        ('00' + date.getUTCDate()).slice(-2) + ' ' +
+        ('00' + date.getUTCHours()).slice(-2) + ':' +
+        ('00' + date.getUTCMinutes()).slice(-2) + ':' +
         ('00' + date.getUTCSeconds()).slice(-2);
 
     return date;
