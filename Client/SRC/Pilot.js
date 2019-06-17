@@ -90,8 +90,7 @@ class ViewOpenFlights extends React.Component {
     }
 
     getFlights() {
-        var user_id = 1;
-        fetch(`${API_URL}/get_assigned_flights/?user_id=${user_id}`)
+        fetch(`${API_URL}/get_unassigned_flights`)
         .then(res => res.json())
         .then(
           (result) => {

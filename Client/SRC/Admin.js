@@ -73,11 +73,10 @@ class DestinationForm extends React.Component {
             'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
-            name: this.state.name,
-            x: this.state.x,
-            y: this.state.y,
-            z: this.state.z,
-            secondParam: 'yourOtherValue',
+            planetName: this.state.name,
+            SGX: this.state.x,
+            SGY: this.state.y,
+            SGZ: this.state.z,
         })
       })
 

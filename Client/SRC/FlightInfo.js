@@ -5,6 +5,7 @@ class FlightInfo extends React.Component {
       super(props);
       this.state = {  
       };
+      console.log(this.props);
     }
   
     render() {
@@ -13,7 +14,7 @@ class FlightInfo extends React.Component {
             <div> Flight: {this.props.flight_number} {"\n"} </div>
             <div> 
               Source: {this.props.source} {` - `}
-              Destination: {this.props.dest}
+              Destination: {this.props.destination}
             </div>
             {"\n"}
             <div> 

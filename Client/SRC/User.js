@@ -3,6 +3,8 @@ import DestinationSelector from './DestinationSelector';
 import SideBar from './SideBar';
 import FlightInfo from './FlightInfo';
 import { throws } from 'assert';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 var API_URL = 'http://127.0.0.1:3000';
 
@@ -45,11 +47,11 @@ class LookTickets extends React.Component {
   }
 
   get_tickets() {
-    var user_id = 1;
-    fetch(`${API_URL}/get_tickets_for_passenger/?user_id=${user_id}`)
+    fetch(`${API_URL}/get_tickets/?user_id=${cookies.get('user_id')}`)
     .then(res => res.json())
     .then(
       (result) => {
+        if(result.status === 200) {
         var tempTickets = [];
         for (const [index, element] of result.tickets.entries()) {
           tempTickets.push(
@@ -64,7 +66,7 @@ class LookTickets extends React.Component {
           ticket_list: result.tickets,
           tickets: tempTickets
         });
-
+      }
       },
       (error) => {
         this.setState({
@@ -87,8 +89,8 @@ class LookFlights extends React.Component {
         super(props);
 
         this.default = {  
-          from: -1,
-          to: -1,
+          from: "",
+          to: "",
           year: 0,
           month: 0,
           day: 0,
@@ -122,15 +124,21 @@ class LookFlights extends React.Component {
       }
     
       handleSubmit(event) {
+        console.log(this.state);
         event.preventDefault();
-        if(this.state.from === -1) {
+        this.setState({
+          to: parseInt(this.state.to),
+          from: parseInt(this.state.from)
+        })
+
+        if(this.state.from === "") {
           this.setState({
             form_error: true,
             trips: []
           });
           return;
         }
-        if(this.state.to === -1) {
+        if(this.state.to === "") {
           this.setState({
             form_error: true,
             trips: []
@@ -165,7 +173,22 @@ class LookFlights extends React.Component {
       }
 
       handleBuy = (tripIndex) => {
-        console.log(tripIndex);
+        let trip = this.state.trip_list[tripIndex];
+
+        let flight_indexes = trip.flights.map(f => f.flight_number);
+
+        fetch('http://127.0.0.1:3000/buy_ticket', {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+          },
+          body: JSON.stringify({
+            flights: flight_indexes.join(','),
+            user_id: cookies.get('user_id')
+          })
+        });
         // this.setState({language: langValue});
       }
 
@@ -192,25 +215,29 @@ class LookFlights extends React.Component {
       }
     
       getTrips() {
-        fetch(`${API_URL}/get_paths/?source=${this.state.from}&dest=${this.state.to}&date=${this.state.year}:${this.state.month}:${this.state.day}`)
+        fetch(`${API_URL}/get_trips/?source=${this.state.from}&dest=${this.state.to}&date=${this.state.year}:${this.state.month}:${this.state.day}`)
         .then(res => res.json())
         .then(
           (result) => {
+            this.setState({
+              trip_list: result.trips,
+            });
+  
             var tempTrips = [];
             for(var i = 0; i < result.trips.length; i++) {
               tempTrips.push(
                 <TripInfo
                 onBuy={this.handleBuy}
                 key={i}
-                source={result.trips[i].source}
-                dest={result.trips[i].dest}
+                index={i}
+                source={parseInt(result.trips[i].source)}
+                dest={parseInt(result.trips[i].dest)}
                 flights={result.trips[i].flights}/>
               )
             };
 
             this.setState({
               form_error: false,
-              trip_list: result.trips,
               trips: tempTrips
             });
           },
@@ -304,7 +331,7 @@ class TripInfo extends React.Component {
       }
 
       handleBuy = () => {
-        this.props.onBuy(this.props.key);
+        this.props.onBuy(this.props.index);
       }
     
       render() {
