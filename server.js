@@ -316,8 +316,25 @@ app.get("/get_assigned_flights", function(req, res) {
 
     con.query(sql, (error, result, fields) => {
         if (error)  {res.json({status:400})}
-        data = result;
-        res.json({"status": 200, "flights": data});
+        let  data = result;
+        let flights = [];
+        for(let i = 0; i < data.length; i++) {
+            let obj = data[i];
+            flights.push({
+                destination : obj.departure,
+                source : obj.arrival,
+                "flight_number":obj.flightID,
+                "dep_year": obj.departureTime.getFullYear(),
+                "dep`_month" : obj.departureTime.getMonth(),
+                "dep_hour" : obj.departureTime.getDay(),
+                "dep_minute" : obj.departureTime.getUTCHours(),
+                "arr_year" :obj.arrivalTime.getFullYear(),
+                "arr_month" : obj.arrivalTime.getMonth(),
+                "arr_hour" : obj.arrivalTime.getUTCHours(),
+                "arr_minute" : obj.arrivalTime.getUTCMinutes()
+            });
+        }
+        res.json({"status": 200, "flights": flights});
     });
 
 });
@@ -395,7 +412,7 @@ app.get("/get_tickets", (req, res, next) => {
     });
 
   
-  });
+});
 
 
 app.get("/get_frequent_fliers", (req, res, next) => {
