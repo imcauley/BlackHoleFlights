@@ -132,7 +132,13 @@ VALUES
   ('2020-01-01 23:59', '2020-01-01 23:59', '1000', '1', '9', '20', '9', '6');
   INSERT INTO Flight
     (`DepartureTime`, `ArrivalTime`, `totalDistance`, `pilot`, `Departure`, `Arrival`, `ship`, `createdBy`)
+    VALUES
   ('2020-01-01 23:59',	'2020-01-01 23:59',	'100',	'1',	'1',	'11',	'1',	'4',);
+
+  INSERT INTO Flight
+    (`DepartureTime`, `ArrivalTime`, `totalDistance`, `Departure`, `Arrival`, `ship`, `createdBy`)
+    values
+  ('2020-01-01 23:59',	'2020-01-01 23:59',	'100',	'1',	'11',	'1',	'4');
 
 INSERT INTO User
 (`id`, `username`, `password`, `email`, `phoneNumber`)
