@@ -99,8 +99,8 @@ class ViewOpenFlights extends React.Component {
             'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
-          flight_number: flight_number,
-          user_id: cookies.get('user_id')
+          flightID: flight_number,
+          pilotID: cookies.get('user_id')
         })
       })
       .then(response => {

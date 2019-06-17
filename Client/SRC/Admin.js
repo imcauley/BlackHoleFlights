@@ -22,13 +22,12 @@ class Admin extends React.Component {
         <div className='mainPage'> 
         <SideBar
             className='pilotSideBar'
-            tabs={['Add Destination', 'Assign Pilots', 'Add Pilots', 'Add Admins','Gold Tier Customers']} 
+            tabs={['Add Destination', 'Assign Pilots', 'Add Pilots','Gold Tier Customers']} 
             defaultActive='Add Destination'
             mapper={{
                 'Add Destination': (<DestinationForm/>), 
                 'Assign Pilots': (<ViewOpenFlights/>),
                 'Add Pilots': (<AddPilots/>),
-                'Add Admins': (<p> add page </p>),
                 'Gold Tier Customers': (<ViewGoldCustomers/>)
             }}
         />
@@ -145,10 +144,23 @@ class ViewOpenFlights extends React.Component {
   }
 
   handleClick(event) {
-      //Signup for flight
-      console.log(this.state);
-      // console.log(this.state.flight_list[event.target.value].flight_number);
-      // this.getFlights();
+      this.getFlights();
+      fetch('http://127.0.0.1:3000/add_pilot_to_flight', {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          flightID: this.state.flight_list[event.target.value].flight_number,
+          userName: this.state.pilot_username
+        })
+      })
+      .then(response => {
+        this.getFlights();
+        this.setState({pilot_username:""});
+      });
   }
 
   handleChange(event) {
@@ -170,7 +182,7 @@ class ViewOpenFlights extends React.Component {
                       <label> Pilot Username: </label>
                       <input type="text" name={element.flight_number} onChange={this.handleChange}/>
                     </form>
-                    <div className='flightButton'> <button onClick={this.handleClick}> Sign Pilot Up </button> </div>
+                    <div className='flightButton'> <button value={index} onClick={this.handleClick}> Sign Pilot Up </button> </div>
                 </div>)
             }
 
@@ -207,12 +219,27 @@ class AddPilots extends React.Component {
       user_rows: []
     };
     this.getNonePilots();
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(event) {
-    var user = this.state.users[event.target.index];
+    var curr_user = this.state.users[event.target.value];
 
-
+    fetch(`${API_URL}/add_pilot`, {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        userID: curr_user.id,
+        salary: 0,
+        homeBase: 1
+      })
+  }).then(response => {
+    this.getNonePilots();
+  })
   }
 
   getNonePilots() {
@@ -221,12 +248,13 @@ class AddPilots extends React.Component {
     .then(
       (result) => {
         if(result.status === 200) {
+          console.log(result.users);
           var temp_user_rows = []
           for(let i = 0; i < result.users.length; i++) {
             temp_user_rows.push(
               <div> 
                 <UserRow key={i} {...result.users[i]}/>
-                <button onClick={this.handleClick} index={i}> Add as Pilot </button>
+                <button onClick={this.handleClick} value={i} key={i}> Add as Pilot </button>
               </div>
             )
           }
