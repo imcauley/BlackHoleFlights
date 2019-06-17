@@ -32,12 +32,10 @@ class ViewMyFlights extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.getFlights();
     }
 
     getFlights() {
-        var user_id = 1;
-        fetch(`${API_URL}/get_assigned_flights/?user_id=${user_id}`)
+        fetch(`${API_URL}/get_assigned_flights/?user_id=${cookies.get('user_id')}`)
         .then(res => res.json())
         .then(
           (result) => {
@@ -68,6 +66,7 @@ class ViewMyFlights extends React.Component {
     }
 
     render() {
+      this.getFlights();
         return (
         <div> 
         <div className='mainHeader'> My Flights </div>
@@ -100,8 +99,8 @@ class ViewOpenFlights extends React.Component {
             'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
-          flight_number: flight_number,
-          user_id: cookies.get('user_id')
+          flightID: flight_number,
+          pilotID: cookies.get('user_id')
         })
       })
       .then(response => {

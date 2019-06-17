@@ -142,7 +142,7 @@ app.put("/add_pilot_to_flight", function(req, res) {
 
 
 
-    if(pilotID.length>=1) {
+    if('pilotID' in req.body) {
         let sql = "UPDATE Flight SET pilot = " + con.escape(pilotID) + " WHERE	Flight.flightID = " + con.escape(flightID) + ";";
         con.query(sql, function (err, result, fields) {
             if (err) {
@@ -152,8 +152,8 @@ app.put("/add_pilot_to_flight", function(req, res) {
             res.json({"added pilot to flight": data});
         });
     }
-    else if (userName.length>=1){
-        let sql = "Update Flight, Pilot as P, User as U SET Flight.pilot = P.id WHERE U.username = " + con.escape(userName) + " AND P.id = U.id AND" +
+    else if ('userName' in req.body){
+        let sql = "Update Flight, Pilot as P, User as U SET Flight.pilot = P.id WHERE U.username = " + con.escape(userName) + " AND P.id = U.id AND " +
             "Flight.flightID = " + con.escape(flightID)+";";
         con.query(sql, function (err, result, fields) {
             if (err) {
