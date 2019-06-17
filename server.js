@@ -45,10 +45,10 @@ app.post("/add_admin", cors(), function(req, res) {
 
     let sql = "INSERT INTO Admin (`id`) VALUES("+ con.escape(userID) + ");";
     con.query(sql, function (err, result, fields) {
-        if (err)  {res.json({status:400})}
+        if (err)  {res.json({status:400})} else{
         data = result;
         res.json({status: 200, "added admin": data});
-    });
+    }});
 });
 
 
@@ -64,10 +64,10 @@ app.post("/add_baggage", function(req, res) {
   
 
     con.query(sql, function (err, result, fields) {
-        if (err)  {res.json({status:400})}
+        if (err)  {res.json({status:400})} else{
         data = result;
         res.json({status: 200, "added baggage": data});
-    });
+    }});
 });
 
 
@@ -83,10 +83,10 @@ app.post("/add_destination", function(req, res) {
         " " + con.escape(SGY) + " , " + con.escape(SGZ) + " );";
 
     con.query(sql, function (err, result, fields) {
-        if (err)  {res.json({status:400})}
+        if (err)  {res.json({status:400})} else{
         data = result;
         res.json({status: 200, "added Destination": data});
-    });
+    }});
 });
 
 
@@ -272,17 +272,12 @@ app.get("/get_all_destinations", function(req, res) {
     });
 
 
-    //get_all_destinations() -> {status: int, destinations:[{planetName: string, id:int}]}
-
-
-
-
 });
 
 
 app.get("/get_all_flights", function(req, res) {
 
-    //may have to change this..., I adjusted from params to body.
+
     let date = req.query.date;
 
    let sql = " SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival, M.modelName" +
@@ -302,7 +297,7 @@ app.get("/get_all_flights", function(req, res) {
 
 app.get("/get_assigned_flights", function(req, res) {
 
-    //may have to change this..., I adjusted from params to body.
+
     let ID = req.query.user_id;
     let date = get_current_date();
 
@@ -328,7 +323,7 @@ app.get("/get_unassigned_flights", function(req, res) {
         "WHERE F.pilot IS NULL";
 
     con.query(sql, (error, result, fields) => {
-        if (error)  {res.json({status:400})}
+        if (error)  {res.json({status:400})} else{
         let  data = result;
         let flights = [];
         for(let i = 0; i < data.length; i++) {
@@ -349,14 +344,14 @@ app.get("/get_unassigned_flights", function(req, res) {
         }
 
         res.json({status: 200, flights});
-    });
+    }});
 
 });
 
 
 
 
-app.get("/get_flight", cors(), function(req, res) {
+app.get("/get_flight", function(req, res) {
 
     //may have to change this..., I adjusted from params to body.
     let flightNo = req.query.flightNo;
@@ -369,10 +364,10 @@ app.get("/get_flight", cors(), function(req, res) {
         "M.modelNumber = S.model;";
 
     con.query(sql, (error, result, fields) => {
-        if (error)  {res.json({status:400})}
-        data = result;
-        res.json({status:200, "flight info": data});
-    });
+        if (error)  {res.json({status:400})} else {
+            data = result;
+            res.json({status: 200, "flight info": data});
+        }})
 
 
 });
@@ -385,8 +380,7 @@ app.get("/get_tickets", (req, res, next) => {
 
 
     con.query(sql, (error, result, fields) => {
-        if (error) {res.json({status:400})}
-        else {
+        if (error) {res.json({status:400})} else {
             res.json({status:200, tickets: result})
         }
     });
@@ -401,10 +395,8 @@ app.get("/get_frequent_fliers", (req, res, next) => {
     let sql = "SELECT T.ticketID, F.flightID as flight_number FROM	Flight AS F, User as U, Ticket as T WHERE" +
         "U.id =  " + con.escape(req.query.username) + "  AND F.flightID = T.flight AND U.id = T.owner;";
 
-
     con.query(sql, (error, result, fields) => {
-        if (error) {res.json({status:400})}
-        else {
+        if (error) {res.json({status:400})} else {
             res.json({status:200, tickets: result})
         }
     });
@@ -417,11 +409,7 @@ app.get("/get_not_pilots", function(req, res) {
     let sql = "SELECT	U.username, U.id, U.phoneNumber, U.email FROM	User as U WHERE	U.id NOT IN (SELECT  U.id FROM  Pilot as P WHERE U.id = P.id);";
 
     con.query(sql, (error, result, fields) => {
-        console.log(error);
-
-       console.log(result);
-        if (error) { res.json({status:400}) }
-        else {
+        if (error) { res.json({status:400})} else {
             res.json({status:200, users: result})
         }
     });
@@ -436,8 +424,7 @@ app.get("/get_not_admins", function(req, res) {
         console.log(error);
 
         console.log(result);
-        if (error) { res.json({status:400}) }
-        else {
+        if (error) { res.json({status:400}) } else {
             res.json({status:200, users: result})
         }
     });
@@ -454,8 +441,7 @@ app.get("/login", function(req, res) {
                 AND password = "${req.query.password}"`
 
     con.query(query, (error, result, fields) => {
-        if (error) { res.json({status:400}) }
-        else {
+        if (error) {res.json({status:400})} else {
             res.json({status:200, user_id: result[0].id})
         }
     });
@@ -505,51 +491,19 @@ app.post("/signup", function(req, res) {
     });
 });
 
-//
-
-app.get("/get_seats_left", function(req, res) {
-
-
-    const getSeatsLeftsql = "SELECT (SELECT    M.numberofSeats FROM    SpaceShip AS S, SpaceShipModel AS M, Flight AS F " +
-    "WHERE    S.model = M.modelNumber AND F.ship = S.serialNumber AND F.flightID = " + con.escape(flightID) + ") - " +
-    "(SELECT    COUNT(*) AS numSeats FROM    Ticket AS T, Flight AS F WHERE  T.flight = F.flightID AND F.flightID = " + con.escape(flightID) + ") AS seatsLeft;";
-
-
-    con.query(getSeatsLeftsql, (error, result, fields) => {
-        if (error) throw error;
-       var data = result;
-       console.log(data[0].seatsLeft);
-
-    });
-});
-
 
 
 function getSeatsLeft(flightID, callback){
-
     const getSeatsLeftsql = "SELECT (SELECT    M.numberofSeats FROM    SpaceShip AS S, SpaceShipModel AS M, Flight AS F " +
         "WHERE    S.model = M.modelNumber AND F.ship = S.serialNumber AND F.flightID = " + con.escape(flightID) + ") - " +
         "(SELECT    COUNT(*) AS numSeats FROM    Ticket AS T, Flight AS F WHERE  T.flight = F.flightID AND F.flightID = " + con.escape(flightID) + ") AS seatsLeft;";
-
 
     con.query(getSeatsLeftsql, (error, result, fields) => {
         if (error) throw error;
         var data = result;
         callback(data[0].seatsLeft);
-
     });
-};
-
-
-app.get("/get_seats_left", function(req, res) {
-
-//     res.json({"get seats left": data});
-
-
-
-// });
-});
-
+}
 
 
 
@@ -569,7 +523,7 @@ app.get("/get_trips", function(req, res) {
         ";";
 
     con.query(sql, (error, result, fields) => {
-        if (error) throw error;
+        if (error)  {res.json({status:400})} else{
        let data = result;
        let source = 0;
 
@@ -589,16 +543,7 @@ app.get("/get_trips", function(req, res) {
             dataFormatted.trips[0].source = obj.departure; //this shouldn't be in the loop I guess.
             dataFormatted.trips[0].destination = obj.arrival;
 
-            // console.log(getSeatsLeft(obj.flightID));
-            // test function
-
-                getSeatsLeft(obj.flightID, function(x){
-
-                    console.log(x);
-
-                    console.log(obj.flightID);
-
-
+            getSeatsLeft(obj.flightID, function(x){
                 dataFormatted.trips[0].flights.push({
                     "seats_left": x,
                     "flight_number": obj.flightID,
@@ -615,9 +560,7 @@ app.get("/get_trips", function(req, res) {
                    if (i === data.length-1) (res.json({status: 200, "formated": dataFormatted}));
                 });
         }
-
-    });
-
+    }});
 });
 
 
@@ -631,13 +574,12 @@ app.get("/diversity", function(req, res) {
         "WHERE    P1.homeBase = D.id AND NOT EXISTS    (SELECT * FROM    Pilot AS P2 WHERE    P2.homeBase = D.id AND P1.id <> P2.id)))" +
         "AND    DST.id = PLT.homeBase AND USR.id = PLT.id;";
 
-    con.query(sql, function (err, result, fields) {
-        if (err) throw err;
-        data = result;
-        res.json({"Diversity": data});
-    });
+    con.query(sql, function (error, result, fields) {
+        if (error)  {res.json({status:400})} else {
+            data = result;
+            res.json({"Diversity": data});
+        }});
 });
-
 
 
 
