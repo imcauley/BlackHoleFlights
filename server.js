@@ -280,8 +280,6 @@ app.get("/get_all_destinations", function(req, res) {
 });
 
 
-
-
 app.get("/get_all_flights", function(req, res) {
 
     //may have to change this..., I adjusted from params to body.
@@ -507,7 +505,7 @@ app.post("/signup", function(req, res) {
     });
 });
 
-// function getSeatsLeft(flightID){
+//
 
 app.get("/get_seats_left", function(req, res) {
 
@@ -527,6 +525,22 @@ app.get("/get_seats_left", function(req, res) {
 
 
 
+function getSeatsLeft(flightID, callback){
+
+    const getSeatsLeftsql = "SELECT (SELECT    M.numberofSeats FROM    SpaceShip AS S, SpaceShipModel AS M, Flight AS F " +
+        "WHERE    S.model = M.modelNumber AND F.ship = S.serialNumber AND F.flightID = " + con.escape(flightID) + ") - " +
+        "(SELECT    COUNT(*) AS numSeats FROM    Ticket AS T, Flight AS F WHERE  T.flight = F.flightID AND F.flightID = " + con.escape(flightID) + ") AS seatsLeft;";
+
+
+    con.query(getSeatsLeftsql, (error, result, fields) => {
+        if (error) throw error;
+        var data = result;
+        callback(data[0].seatsLeft);
+
+    });
+};
+
+
 app.get("/get_seats_left", function(req, res) {
 
 //     res.json({"get seats left": data});
@@ -535,6 +549,9 @@ app.get("/get_seats_left", function(req, res) {
 
 // });
 });
+
+
+
 
 app.get("/get_trips", function(req, res) {
 
@@ -571,24 +588,34 @@ app.get("/get_trips", function(req, res) {
             let obj = data[i];
             dataFormatted.trips[0].source = obj.departure; //this shouldn't be in the loop I guess.
             dataFormatted.trips[0].destination = obj.arrival;
-           // console.log(getSeatsLeft(obj.flightID));
-            let x = getSeatsLeft(obj.flightID);
-            console.log(x);
-            dataFormatted.trips[0].flights.push({
-                    "seats_left" : '10',
-                    "flight_number":obj.flightID,
+
+            // console.log(getSeatsLeft(obj.flightID));
+            // test function
+
+                getSeatsLeft(obj.flightID, function(x){
+
+                    console.log(x);
+
+                    console.log(obj.flightID);
+
+
+                dataFormatted.trips[0].flights.push({
+                    "seats_left": x,
+                    "flight_number": obj.flightID,
                     "dep_year": obj.departureTime.getFullYear(),
-                    "dep`_month" : obj.departureTime.getMonth(),
-                    "dep_hour" : obj.departureTime.getDay(),
-                    "dep_minute" : obj.departureTime.getUTCHours(),
-                    "arr_year" :obj.arrivalTime.getFullYear(),
-                    "arr_month" : obj.arrivalTime.getMonth(),
-                    "arr_hour" : obj.arrivalTime.getUTCHours(),
-                    "arr_minute" : obj.arrivalTime.getUTCMinutes()
-            });
+                    "dep`_month": obj.departureTime.getMonth(),
+                    "dep_hour": obj.departureTime.getDay(),
+                    "dep_minute": obj.departureTime.getUTCHours(),
+                    "arr_year": obj.arrivalTime.getFullYear(),
+                    "arr_month": obj.arrivalTime.getMonth(),
+                    "arr_hour": obj.arrivalTime.getUTCHours(),
+                    "arr_minute": obj.arrivalTime.getUTCMinutes()
+                });
+
+                   if (i === data.length-1) (res.json({status: 200, "formated": dataFormatted}));
+                });
         }
 
-        res.json({status: 200, "formated": dataFormatted});
     });
 
 });

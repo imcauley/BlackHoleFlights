@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="469dcda4-76ac-4d5c-9edb-05df1da4fdee" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/todo_endpoints.txt" beforeDir="false" afterPath="$PROJECT_DIR$/todo_endpoints.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
-              <caret line="222" lean-forward="true" selection-start-line="222" selection-end-line="222" />
+            <state relative-caret-position="1534">
+              <caret line="610" column="40" lean-forward="true" selection-start-line="610" selection-start-column="40" selection-end-line="610" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -39,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/todo_endpoints.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="368">
-              <caret line="16" column="10" lean-forward="true" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+              <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -83,8 +78,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/schema.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="140" column="79" selection-start-line="140" selection-start-column="79" selection-end-line="140" selection-end-column="79" />
+            <state relative-caret-position="-7">
+              <caret line="231" column="17" selection-start-line="231" selection-start-column="17" selection-end-line="231" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -101,12 +96,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>floght</find>
-      <find>destinationm</find>
-      <find>trips</find>
-      <find>trips[0].flights[i]</find>
-      <find>getSeatsLeft</find>
-      <find>get_all</find>
       <find>get_all_destinations</find>
       <find>int int in</find>
       <find>user</find>
@@ -131,6 +120,12 @@
       <find>get_ass</find>
       <find>get_un</find>
       <find>buytick</find>
+      <find>calculate</find>
+      <find>seats_left</find>
+      <find>getSeatsLeftsql</find>
+      <find>getseatsleft</find>
+      <find>baggae</find>
+      <find>res.json({status: 200, &quot;formated&quot;: dataFormatted});</find>
     </findStrings>
     <replaceStrings>
       <replace>let</replace>
@@ -164,8 +159,8 @@
         <option value="$PROJECT_DIR$/db/API_queries/add_flight.sql" />
         <option value="$PROJECT_DIR$/db/API_queries/get_trips.sql" />
         <option value="$PROJECT_DIR$/db/schema.sql" />
-        <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/todo_endpoints.txt" />
+        <option value="$PROJECT_DIR$/server.js" />
       </list>
     </option>
   </component>
@@ -257,12 +252,12 @@
       <option name="presentableId" value="Default" />
       <updated>1559609985192</updated>
       <workItem from="1559609987312" duration="7760000" />
-      <workItem from="1560731914962" duration="7087000" />
+      <workItem from="1560731914962" duration="10873000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63626000" />
+    <option name="totallyTimeSpent" value="67412000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -489,20 +484,6 @@
     <entry file="file://$PROJECT_DIR$/Client/SRC/index.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/schema.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="140" column="79" selection-start-line="140" selection-start-column="79" selection-end-line="140" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="222" lean-forward="true" selection-start-line="222" selection-end-line="222" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/API_queries/get_trips.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="483">
@@ -513,7 +494,21 @@
     <entry file="file://$PROJECT_DIR$/todo_endpoints.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
-          <caret line="16" column="10" lean-forward="true" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/schema.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="231" column="17" selection-start-line="231" selection-start-column="17" selection-end-line="231" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1534">
+          <caret line="610" column="40" lean-forward="true" selection-start-line="610" selection-start-column="40" selection-end-line="610" selection-end-column="40" />
         </state>
       </provider>
     </entry>
