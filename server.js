@@ -9,12 +9,21 @@ const port = 3000;
 const admin = require('./app/routes/admin');
 const customers = require('./app/routes/customers');
 const pilots = require('./app/routes/pilots');
-
+/*
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "blackhole"
+});
+*/
+
+
+const con = mysql.createConnection({
+    host: "104.198.156.225",
+    user: "root",
+    password: "password",
+    database: "cpsc471"
 });
 
 
@@ -36,9 +45,9 @@ app.post("/add_admin", cors(), function(req, res) {
 
     let sql = "INSERT INTO Admin (`id`) VALUES("+ con.escape(userID) + ");";
     con.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
-        res.json({"added admin": data});
+        res.json({status: 200, "added admin": data});
     });
 });
 
@@ -55,9 +64,9 @@ app.post("/add_baggage", function(req, res) {
   
 
     con.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
-        res.json({"added baggage": data});
+        res.json({status: 200, "added baggage": data});
     });
 });
 
@@ -74,9 +83,9 @@ app.post("/add_destination", function(req, res) {
         " " + con.escape(SGY) + " , " + con.escape(SGZ) + " );";
 
     con.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
-        res.json({"added Destination": data});
+        res.json({status: 200, "added Destination": data});
     });
 });
 
@@ -98,9 +107,9 @@ app.post("/add_flight", function(req, res) {
         + " , " + con.escape(adminID) + ")";
 
     con.query(sql, (error, result, fields) => {
-        if (error) throw error;
+        if (error)  {res.json({status:400})}
         data = result;
-        res.json({"add flight": data});
+        res.json({status:200, "add flight": data});
     });
 
 
@@ -116,9 +125,9 @@ app.post("/add_pilot", function(req, res) {
 
     let sql = "INSERT INTO Pilot (`ID`, `salary`, `homeBase` ) VALUES(" + con.escape(userID) + "," + con.escape(salary) + " ," + con.escape(homeBase) +" );";
     con.query(sql, function(err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
-        res.json({"added pilot": data});
+        res.json({status:200,"added pilot": data});
     })
 });
 
@@ -131,7 +140,7 @@ app.put("/add_pilot_to_flight", function(req, res) {
     let sql = "UPDATE Flight SET pilot = " + con.escape(pilotID) + " WHERE	Flight.flightID = " + con.escape(flightID) + ";";
 
     con.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
         res.json({"added pilot to flight": data});
     });
@@ -148,9 +157,9 @@ app.post("/add_space_ship", function(req, res) {
         " VALUES	(" + con.escape(distanceTravelled) + " , " + con.escape(activeStatus) + " , " + con.escape(model) + " );";
 
     con.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
-        res.json({"add space ship": data});
+        res.json({status:200, "add space ship": data});
     });
 });
 
@@ -163,14 +172,14 @@ app.post("/add_space_ship_model", function(req, res) {
         "(" + con.escape(modelName) + " , " + con.escape(numberofSeats) + " , " + con.escape(manufacturerName) + " );";
 
     con.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
-        res.json({"ad space_ship model": data});
+        res.json({status:200, "add space_ship model": data});
     });
 });
 
 
-app.post("/buy_ticket", function(req, res) {
+app.post("/add_ticket", function(req, res) {
     let ticketPrice = req.body.ticketPrice;
     let seat = req.body.seat;
     let ticketID = req.body.ticketID;
@@ -183,9 +192,42 @@ app.post("/buy_ticket", function(req, res) {
         " " + con.escape(flightID) +" );";
 
     con.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
-        res.json({"Buy ticket": data});
+        res.json({status: 200, "add ticket": data});
+    });
+});
+
+
+app.put("/buy_ticket", function(req, res) {
+
+    let ticketID = req.body.ticketID;
+    let user_id = req.body.user_id;
+
+
+    let sql =" UPDATE Ticket SET Ticket.owner = " + con.escape(user_id) + "WHERE  "+ con.escape(ticketID) + " = Ticket.ticketID;";
+
+    con.query(sql, function (err, result, fields) {
+        if (err)  {res.json({err,status:400})}
+        data = result;
+        res.json({status: 200, "buy ticket": data});
+    });
+});
+
+
+
+app.put("/assign_flight", function(req, res) {
+
+    let flightID = req.body.flightID;
+    let user_id = req.body.user_id;
+
+
+    let sql =" UPDATE Flight SET Flight.pilot = " + con.escape(user_id) + "WHERE  "+ con.escape(flightID) + " = Flight.flightID;";
+
+    con.query(sql, function (err, result, fields) {
+        if (err)  {res.json({err,status:400})}
+        data = result;
+        res.json({status: 200, "assign flight": data});
     });
 });
 
@@ -197,9 +239,9 @@ app.delete("/cancel_ticket", function(req, res) {
     let sql ="DELETE FROM Ticket WHERE Ticket.ticketID = " + con.escape(ticketID) + ";";
 
     con.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
-        res.json({"Cancel ticket": data});
+        res.json({status: 200, "Cancel ticket": data});
     });
 });
 
@@ -212,9 +254,9 @@ app.delete("/delete_flight", function(req, res) {
     let sql ="DELETE FROM Flight WHERE Flight.ticketID = " + con.escape(flightID) + ";";
 
     con.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
-        res.json({"Delete flight": data});
+        res.json({status: 200 ,"Delete flight": data});
     });
 });
 
@@ -224,9 +266,9 @@ app.get("/get_all_destinations", function(req, res) {
     let sql ="SELECT id, planetName FROM Destination;";
 
     con.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err)  {res.json({status:400})}
         data = result;
-        res.status(400).json({"get_all_destinations": data});
+        res.json({status: 200, "get_all_destinations": data});
     });
 
 
@@ -250,9 +292,9 @@ app.get("/get_all_flights", function(req, res) {
        "S.serialNumber AND M.modelNumber = S.model;"
 
     con.query(sql, (error, result, fields) => {
-        if (error) throw error;
+        if (error)  {res.json({status:400})}
         data = result;
-        res.json({"all flight info": data});
+        res.json({status:200, "all flight info": data});
     });
 
 });
@@ -267,17 +309,52 @@ app.get("/get_assigned_flights", function(req, res) {
     let date = req.body.date;
 
     let sql = " SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival, S.serialNumber, M.modelName " +
-   "FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M WHERE	F.pilot = " + con.escape(ID) + " AND F.departureTime >= " + con.escape(date) + " AND" +
-   " F.ship = S.serialNumber AND M.modelNumber = S.model;";
+        "FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M WHERE	F.pilot = " + con.escape(ID) + " AND F.departureTime >= " + con.escape(date) + " AND" +
+        " F.ship = S.serialNumber AND M.modelNumber = S.model;";
 
 
     con.query(sql, (error, result, fields) => {
-        if (error) throw error;
+        if (error)  {res.json({status:400})}
         data = result;
-        res.json({"get assigned flights": data});
+        res.json({status: 200, "flights": data});
     });
 
 });
+
+
+
+app.get("/get_unassigned_flights", function(req, res) {
+
+
+    let sql = "SELECT F.`arrivalTime`, F.`departureTime`, F.`flightID`, F.`departure`, F.`arrival` FROM Flight as F " +
+        "WHERE F.pilot IS NULL";
+
+    con.query(sql, (error, result, fields) => {
+        if (error)  {res.json({status:400})}
+        let  data = result;
+        let flights = [];
+        for(let i = 0; i < data.length; i++) {
+            let obj = data[i];
+            flights.push({
+                "destination" : obj.departure,
+                "source" : obj.arrival,
+                "flight_number":obj.flightID,
+                "dep_year": obj.departureTime.getFullYear(),
+                "dep`_month" : obj.departureTime.getMonth(),
+                "dep_hour" : obj.departureTime.getDay(),
+                "dep_minute" : obj.departureTime.getUTCHours(),
+                "arr_year" :obj.arrivalTime.getFullYear(),
+                "arr_month" : obj.arrivalTime.getMonth(),
+                "arr_hour" : obj.arrivalTime.getUTCHours(),
+                "arr_minute" : obj.arrivalTime.getUTCMinutes()
+            });
+        }
+
+        res.json({status: 200, flights});
+    });
+
+});
+
 
 
 
@@ -294,9 +371,9 @@ app.get("/get_flight", cors(), function(req, res) {
         "M.modelNumber = S.model;";
 
     con.query(sql, (error, result, fields) => {
-        if (error) throw error;
+        if (error)  {res.json({status:400})}
         data = result;
-        res.json({"flight info": data});
+        res.json({status:200, "flight info": data});
     });
 
 
@@ -336,6 +413,40 @@ app.get("/get_frequent_fliers", (req, res, next) => {
 
 
 });
+
+app.get("/get_not_pilots", function(req, res) {
+
+    let sql = "SELECT	U.username, U.id, U.phoneNumber, U.email FROM	User as U WHERE	U.id NOT IN (SELECT  U.id FROM  Pilot as P WHERE U.id = P.id);";
+
+    con.query(sql, (error, result, fields) => {
+        console.log(error);
+
+       console.log(result);
+        if (error) { res.json({status:400}) }
+        else {
+            res.json({status:200, users: result})
+        }
+    });
+
+});
+
+app.get("/get_not_admins", function(req, res) {
+
+    let sql = "SELECT	U.username, U.id, U.phoneNumber, U.email FROM	User as U WHERE	U.id NOT IN (SELECT  U.id FROM  Admin as A WHERE U.id = A.id);";
+
+    con.query(sql, (error, result, fields) => {
+        console.log(error);
+
+        console.log(result);
+        if (error) { res.json({status:400}) }
+        else {
+            res.json({status:200, users: result})
+        }
+    });
+
+});
+
+
 
 app.get("/login", function(req, res) {
 
@@ -433,43 +544,6 @@ app.get("/get_trips", function(req, res) {
 
     let date = dateString[0] + "-" + dateString[1] + "-" + dateString[2] + " 00:00";
 
-    console.log(date);
-
-    //Parameters: {source: string, dest: string, date:int:int:int}
-    //date is a string with three ints sperated by colons: year:month:day
-    //Format:
-    //{
-    // status: 200,
-    // trips: [
-    // {
-    //   source: "Earth",
-    //   destination: "Mars",
-    //   flights: [
-    //     {
-    //       dep_year:"2020",
-    //       dep_month:"09",
-    //       dep_day:"20",
-    //       flight_number:"56376324",
-    //       source:"Earth",
-    //       dest:"Venus",
-    //       dep_hour:"20",
-    //       dep_minute:"15",
-    //       seats_left:"7"
-    //     },
-    //     {
-    //       year:"2020",
-    //       month:"09",
-    //       day:"20",
-    //       flight_number:"2343212304",
-    //       source:"Venus",
-    //       dest:"Mars",
-    //       dep_hour:"20",
-    //       dep_minute:"15",
-    //       seats_left:"3"
-    //     },
-    //   ]
-    // }...}
-
    
     //todo calculate seats left
     let sql = "SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival," +
@@ -483,14 +557,13 @@ app.get("/get_trips", function(req, res) {
        let source = 0;
 
 
-       var dataFormatted = {
-            status : "200",
+       let dataFormatted = {
             trips : [{
                 source : '0',
                 destination : '1',
-                flights : [{
-                    "seats_left": '10'
-                }],
+                flights : [
+
+                ],
            }],
         };
 
@@ -515,7 +588,7 @@ app.get("/get_trips", function(req, res) {
             });
         }
 
-        res.json({"formated": dataFormatted});
+        res.json({status: 200, "formated": dataFormatted});
     });
 
 });
@@ -537,11 +610,6 @@ app.get("/diversity", function(req, res) {
         res.json({"Diversity": data});
     });
 });
-
-
-
-
-
 
 
 
