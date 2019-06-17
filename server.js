@@ -9,21 +9,22 @@ const port = 3000;
 const admin = require('./app/routes/admin');
 const customers = require('./app/routes/customers');
 const pilots = require('./app/routes/pilots');
-/*
-const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "blackhole"
-});
-*/
+
+// const con = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "",
+//     database: "blackhole"
+// });
+
 
 
 const con = mysql.createConnection({
     host: "104.198.156.225",
     user: "root",
     password: "password",
-    database: "cpsc471"
+    database: "cpsc471",
+    multipleStatements: true
 });
 
 
@@ -85,8 +86,8 @@ app.post("/add_destination", function(req, res) {
     con.query(sql, function (err, result, fields) {
         if (err)  {res.json({status:400})} else{
         data = result;
-        res.json({status: 200, "added Destination": data});
-    }});
+        res.json({status: 200, "added": data});
+    });
 });
 
 
@@ -107,10 +108,10 @@ app.post("/add_flight", function(req, res) {
         + " , " + con.escape(adminID) + ")";
 
     con.query(sql, (error, result, fields) => {
-        if (error)  {res.json({status:400})}
+        if (error)  {res.json({status:400})} else {
         data = result;
         res.json({status:200, "add flight": data});
-    });
+    }});
 
 
 });
@@ -199,19 +200,23 @@ app.post("/add_ticket", function(req, res) {
 });
 
 
-app.put("/buy_ticket", function(req, res) {
+app.post("/buy_ticket", function(req, res) {
 
-    let ticketID = req.body.ticketID;
     let user_id = req.body.user_id;
 
+    let flights = req.body.flights.split(',');
+    let queries = [];
+    for(let i = 0; i < flights.length; i++) {
+        queries.push(`INSERT INTO Ticket
+                    (price, seat, owner, flight)
+                    VALUES (100, 6, ${user_id}, ${flights[i]});`)
+    };
 
-    let sql =" UPDATE Ticket SET Ticket.owner = " + con.escape(user_id) + "WHERE  "+ con.escape(ticketID) + " = Ticket.ticketID;";
-
-    con.query(sql, function (err, result, fields) {
-        if (err)  {res.json({err,status:400})}
+    con.query(queries.join(' '), function (err, result) {
+        if (err) {res.json({status:400})} else {
         data = result;
-        res.json({status: 200, "buy ticket": data});
-    });
+        res.json({status: 200, "bought": data});
+    }});
 });
 
 
@@ -229,6 +234,8 @@ app.put("/assign_flight", function(req, res) {
         data = result;
         res.json({status: 200, "assign flight": data});
     });
+
+
 });
 
 
@@ -329,8 +336,8 @@ app.get("/get_unassigned_flights", function(req, res) {
         for(let i = 0; i < data.length; i++) {
             let obj = data[i];
             flights.push({
-                "destination" : obj.departure,
-                "source" : obj.arrival,
+                destination : obj.departure,
+                source : obj.arrival,
                 "flight_number":obj.flightID,
                 "dep_year": obj.departureTime.getFullYear(),
                 "dep`_month" : obj.departureTime.getMonth(),
@@ -375,12 +382,13 @@ app.get("/get_flight", function(req, res) {
 app.get("/get_tickets", (req, res, next) => {
    // get_tickets(user_id: int) -> {status: int, tickets: [{ticketID: int, flight_number: int}]} // REMOVED SEAT #
 
-    let sql = "SELECT T.ticketID, F.flightID as flight_number FROM	Flight AS F, User as U, Ticket as T WHERE" +
-    "U.id =  " + con.escape(req.query.username) + "  AND F.flightID = T.flight AND U.id = T.owner;";
+    let sql = "SELECT T.ticketID, T.seat, F.flightID as flight_number FROM	Flight AS F, User as U, Ticket as T WHERE" +
+    " U.id =  " + con.escape(req.query.user_id) + "  AND F.flightID = T.flight AND U.id = T.owner;";
 
 
     con.query(sql, (error, result, fields) => {
-        if (error) {res.json({status:400})} else {
+        if (error) {console.log(error); res.json({status:400})}
+        else {
             res.json({status:200, tickets: result})
         }
     });
@@ -392,8 +400,8 @@ app.get("/get_tickets", (req, res, next) => {
 app.get("/get_frequent_fliers", (req, res, next) => {
    // +get_frequent_fliers(date:int:int:int) -> {status: int, users: [{username: string, id: int, phone_number: int, email: string, totalSpend: int}]}
 
-    let sql = "SELECT T.ticketID, F.flightID as flight_number FROM	Flight AS F, User as U, Ticket as T WHERE" +
-        "U.id =  " + con.escape(req.query.username) + "  AND F.flightID = T.flight AND U.id = T.owner;";
+    let sql = "SELECT T.ticketID, F.flightID as flight_number FROM	Flight AS F, User as U, Ticket as T WHERE " +
+        " U.id =  " + con.escape(req.query.username) + "  AND F.flightID = T.flight AND U.id = T.owner;";
 
     con.query(sql, (error, result, fields) => {
         if (error) {res.json({status:400})} else {
@@ -459,8 +467,6 @@ app.post("/signup", function(req, res) {
                 WHERE username = "${req.body.username}"
                 OR email = "${req.body.email}"`
 
-    console.log(query1);
-
     let query2 = `INSERT INTO User
                   (id, username, email, password, phoneNumber)
                   VALUES (343555, '${req.body.username}', '${req.body.email}', '${req.body.password}', ${req.body.phone_number})`
@@ -473,15 +479,12 @@ app.post("/signup", function(req, res) {
     con.query(query1, (error1, result1) => {
         if (error1 || result1.length > 0) { res.json({status:400}) }
         else {
-            console.log("here1");
             con.query(query2, (error2, result2) => {
                 if (error2) { res.json({status:400}) }
                 else {
-                    console.log("here2");
                     con.query(query3, (error3, result3) => {
                         if (error3) { res.json({status:400}) }
                         else {
-                            console.log("here3");
                             res.json({status:200, user_id: result3[0].id})
                         }
                     });
@@ -509,9 +512,9 @@ function getSeatsLeft(flightID, callback){
 
 app.get("/get_trips", function(req, res) {
 
-    let source = req.body.source;
-    let destination = req.body.dest;
-    let dateString = req.body.date.split(":");
+    let source = req.query.source;
+    let destination = req.query.dest;
+    let dateString = req.query.date.split(":");
 
     let date = dateString[0] + "-" + dateString[1] + "-" + dateString[2] + " 00:00";
 
@@ -542,11 +545,11 @@ app.get("/get_trips", function(req, res) {
             let obj = data[i];
             dataFormatted.trips[0].source = obj.departure; //this shouldn't be in the loop I guess.
             dataFormatted.trips[0].destination = obj.arrival;
-
-            getSeatsLeft(obj.flightID, function(x){
-                dataFormatted.trips[0].flights.push({
-                    "seats_left": x,
-                    "flight_number": obj.flightID,
+           // console.log(getSeatsLeft(obj.flightID));
+            // let x = getSeatsLeft(obj.flightID);
+            dataFormatted.trips[0].flights.push({
+                    "seats_left" : '10',
+                    "flight_number":obj.flightID,
                     "dep_year": obj.departureTime.getFullYear(),
                     "dep`_month": obj.departureTime.getMonth(),
                     "dep_hour": obj.departureTime.getDay(),
@@ -557,10 +560,9 @@ app.get("/get_trips", function(req, res) {
                     "arr_minute": obj.arrivalTime.getUTCMinutes()
                 });
 
-                   if (i === data.length-1) (res.json({status: 200, "formated": dataFormatted}));
-                });
-        }
-    }});
+        res.json({status: 200, ...dataFormatted});
+    });
+
 });
 
 
