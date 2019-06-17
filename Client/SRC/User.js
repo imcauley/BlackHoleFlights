@@ -174,11 +174,13 @@ class LookFlights extends React.Component {
         .then(res => res.json())
         .then(
           (result) => {
+            if(result.status === 200) {
             result.destinations.unshift({planetName: '-', id:-1})
             this.setState({
               form_error: false,
               destinations: result.destinations
             });
+          }
           },
           (error) => {
             this.setState({

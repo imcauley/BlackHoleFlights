@@ -39,20 +39,22 @@ class ViewMyFlights extends React.Component {
         .then(res => res.json())
         .then(
           (result) => {
-            var tempFlights = [];
-            for (const [index, element] of result.flights.entries()) {
-                tempFlights.push(
-                  <FlightInfo
-                  key={index}
-                  {...element}
-                />)
-              }
+            if(result.status === 200) {
+              var tempFlights = [];
+              for (const [index, element] of result.flights.entries()) {
+                  tempFlights.push(
+                    <FlightInfo
+                    key={index}
+                    {...element}
+                  />)
+                }
 
-            this.setState({
-              form_error: false,
-              flight_list: result.trips,
-              flights: tempFlights
-            });
+              this.setState({
+                form_error: false,
+                flight_list: result.trips,
+                flights: tempFlights
+              });
+          }
           },
           (error) => {
             this.setState({
@@ -93,6 +95,7 @@ class ViewOpenFlights extends React.Component {
         .then(res => res.json())
         .then(
           (result) => {
+            if(result.status === 200) {
             var tempFlights = [];
             for (const [index, element] of result.flights.entries()) {
                 tempFlights.push(
@@ -107,6 +110,7 @@ class ViewOpenFlights extends React.Component {
               flight_list: result.flights,
               flights: tempFlights
             });
+          }
           },
           (error) => {
             this.setState({
