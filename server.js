@@ -453,13 +453,12 @@ app.get("/get_user_type", (req, res, next) => {
 
 app.get("/get_frequent_fliers", (req, res, next) => {
    // +get_frequent_fliers(date:int:int:int) -> {status: int, users: [{username: string, id: int, phone_number: int, email: string, totalSpend: int}]}
-    let dateString = req.query.date.split(":");
-    let date = dateString[0] + "-" + dateString[1] + "-" + dateString[2] + " 00:00";
+  let date = get_current_date
 
-    let sql = "SELECT	U.id AS uID, U.username, U.email, U.phoneNumber, SUM(T.price) AS amount_spent FROM	User AS U, Ticket AS T, Flight AS F " +
+    let sql = "SELECT	U.id AS uID, U.username, U.email, U.phoneNumber, SUM(T.price) AS totalSpend FROM	User AS U, Ticket AS T, Flight AS F " +
         "WHERE	U.id = T.owner AND T.flight = F.flightID AND F.departureTime > DATE_ADD(" + con.escape(date) + " , INTERVAL -1 YEAR) AND F.departureTime < " + con.escape(date) + " " +
         "GROUP BY	U.id HAVING		EXISTS	(SELECT * FROM	Ticket AS T, Flight AS F WHERE	T.owner = uID AND T.flight = F.flightID AND F.departureTime > DATE_ADD(" + con.escape(date) + ", INTERVAL -6 MONTH))" +
-        " ORDER BY	amount_spent DESC LIMIT	0, 3;";
+        " ORDER BY	totalSpend DESC LIMIT	0, 3;";
 
     con.query(sql, (error, result, fields) => {
         if (error) {res.json({status:400})} else {
