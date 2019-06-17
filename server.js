@@ -138,14 +138,33 @@ app.post("/add_pilot", function(req, res) {
 app.put("/add_pilot_to_flight", function(req, res) {
     let flightID = req.body.flightID
     let pilotID = req.body.pilotID
+    let userName = req.body.userName;
 
-    let sql = "UPDATE Flight SET pilot = " + con.escape(pilotID) + " WHERE	Flight.flightID = " + con.escape(flightID) + ";";
 
-    con.query(sql, function (err, result, fields) {
-        if (err)  {res.json({status:400})}
-        data = result;
-        res.json({"added pilot to flight": data});
-    });
+    if(pilotID.length>=1) {
+        let sql = "UPDATE Flight SET pilot = " + con.escape(pilotID) + " WHERE	Flight.flightID = " + con.escape(flightID) + ";";
+        con.query(sql, function (err, result, fields) {
+            if (err) {
+                res.json({status: 400})
+            }
+            data = result;
+            res.json({"added pilot to flight": data});
+        });
+    }
+    else if (userName.length>=1){
+        let sql = "Update Flight, Pilot as P, User as U SET Flight.pilot = P.id WHERE U.username = " + con.escape(userName) + " AND P.id = U.id AND" +
+            "Flight.flightID = " + con.escape(flightID)+";";
+        con.query(sql, function (err, result, fields) {
+            if (err) {
+                res.json({status: 400})
+            }
+            data = result;
+            res.json({"added pilot to flight": data});
+        });
+    }
+    else{
+        res.json({status: 400})
+    }
 });
 
 
