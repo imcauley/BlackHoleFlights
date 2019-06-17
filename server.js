@@ -136,8 +136,8 @@ app.post("/add_pilot", function(req, res) {
 
 
 app.put("/add_pilot_to_flight", function(req, res) {
-    let flightID = req.body.flightID
-    let pilotID = req.body.pilotID
+    let flightID = req.body.flight_number; 
+    let pilotID = req.body.user_id;
 
     let sql = "UPDATE Flight SET pilot = " + con.escape(pilotID) + " WHERE	Flight.flightID = " + con.escape(flightID) + ";";
 
