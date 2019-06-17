@@ -87,7 +87,8 @@ app.post("/add_destination", function(req, res) {
         if (err)  {res.json({status:400})} else{
         data = result;
         res.json({status: 200, "added": data});
-    });
+    }});
+
 });
 
 
@@ -561,8 +562,8 @@ app.get("/get_trips", function(req, res) {
                 });
 
         res.json({status: 200, ...dataFormatted});
-    });
-
+        };
+    }});
 });
 
 
