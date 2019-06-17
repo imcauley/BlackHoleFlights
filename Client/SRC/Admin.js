@@ -2,6 +2,8 @@ import React from 'react';
 import SideBar from './SideBar';
 import FlightInfo from './FlightInfo';
 import UserRow from './UserRow';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 // import { EventEmitter } from 'events';
 // import { eventNames } from 'cluster';
 
@@ -18,7 +20,6 @@ class Admin extends React.Component {
         return (
         <div className='mainPage'> 
         <div className='mainPage'> 
-        <p> I'm a pilot </p>
         <SideBar
             className='pilotSideBar'
             tabs={['Add Destination', 'Assign Pilots', 'Add Pilots', 'Add Admins','Gold Tier Customers']} 
@@ -26,7 +27,7 @@ class Admin extends React.Component {
             mapper={{
                 'Add Destination': (<DestinationForm/>), 
                 'Assign Pilots': (<ViewOpenFlights/>),
-                'Add Pilots': (<p> add page </p>),
+                'Add Pilots': (<AddPilots/>),
                 'Add Admins': (<p> add page </p>),
                 'Gold Tier Customers': (<ViewGoldCustomers/>)
             }}
@@ -155,13 +156,11 @@ class ViewOpenFlights extends React.Component {
   }
 
   getFlights() {
-
-      var user_id = 1;
-      fetch(`${API_URL}/get_assigned_flights/?user_id=${user_id}`)
+      fetch(`${API_URL}/get_unassigned_flights/`)
       .then(res => res.json())
       .then(
         (result) => {
-          if(result.status == 200) {
+          if(result.status === 200) {
           var tempFlights = [];
           for (const [index, element] of result.flights.entries()) {
               tempFlights.push(
@@ -200,6 +199,63 @@ class ViewOpenFlights extends React.Component {
   }
 }
 
+class AddPilots extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: [],
+      user_rows: []
+    };
+    this.getNonePilots();
+  }
+
+  handleClick(event) {
+    var user = this.state.users[event.target.index];
+
+
+  }
+
+  getNonePilots() {
+    fetch(`${API_URL}/get_not_pilots`)
+    .then(res => res.json())
+    .then(
+      (result) => {
+        if(result.status === 200) {
+          var temp_user_rows = []
+          for(let i = 0; i < result.users.length; i++) {
+            temp_user_rows.push(
+              <div> 
+                <UserRow key={i} {...result.users[i]}/>
+                <button onClick={this.handleClick} index={i}> Add as Pilot </button>
+              </div>
+            )
+          }
+
+          this.setState({
+            form_error: false,
+            users: result.users,
+            user_rows: temp_user_rows
+          });
+      }
+      },
+      (error) => {
+        this.setState({
+          form_error: true,
+          users: []
+        });
+      }
+    )
+  }
+
+  render() {
+    return(
+    <div>
+     <div className='mainHeader'> Add Pilots </div>
+    {this.state.user_rows}
+    </div>)
+  }
+}
+
 class ViewGoldCustomers extends React.Component {
   constructor(props) {
     super(props);
@@ -215,7 +271,6 @@ class ViewGoldCustomers extends React.Component {
     .then(res => res.json())
     .then(
       (result) => {
-        console.log(result.users)
         var tempUserRows = [];
 
         tempUserRows = result.users.map((item, index) => (
@@ -238,7 +293,7 @@ class ViewGoldCustomers extends React.Component {
 
   render() {
     return (<div> 
-      <div className='mainHeader'> Gold Status Users: </div>
+      <div className='mainHeader'> Gold Status Users </div>
       {this.state.userRows} </div>)
   }
 }
