@@ -136,14 +136,12 @@ app.post("/add_pilot", function(req, res) {
 
 
 app.put("/add_pilot_to_flight", function(req, res) {
-<<<<<<< HEAD
+
     let flightID = req.body.flightID
     let pilotID = req.body.pilotID
     let userName = req.body.userName;
-=======
-    let flightID = req.body.flight_number; 
-    let pilotID = req.body.user_id;
->>>>>>> d611bbb6ee6e5777b9acea9498e5d7ebb2c89b59
+
+
 
 
     if(pilotID.length>=1) {
