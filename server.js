@@ -268,7 +268,7 @@ app.get("/get_all_destinations", function(req, res) {
     con.query(sql, function (err, result, fields) {
         if (err)  {res.json({status:400})}
         data = result;
-        res.json({status: 200, "get_all_destinations": data});
+        res.json({status: 200, destinations: data});
     });
 
 
@@ -285,7 +285,7 @@ app.get("/get_all_destinations", function(req, res) {
 app.get("/get_all_flights", function(req, res) {
 
     //may have to change this..., I adjusted from params to body.
-    let date = req.body.date;
+    let date = req.query.date;
 
    let sql = " SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival, M.modelName" +
        " FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS  WHERE	F.departureTime >= " + con.escape(date) + " AND F.ship = " +
@@ -305,8 +305,8 @@ app.get("/get_all_flights", function(req, res) {
 app.get("/get_assigned_flights", function(req, res) {
 
     //may have to change this..., I adjusted from params to body.
-    let ID = req.body.user_id;
-    let date = req.body.date;
+    let ID = req.query.user_id;
+    let date = get_current_date();
 
     let sql = " SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival, S.serialNumber, M.modelName " +
         "FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M WHERE	F.pilot = " + con.escape(ID) + " AND F.departureTime >= " + con.escape(date) + " AND" +
@@ -316,7 +316,7 @@ app.get("/get_assigned_flights", function(req, res) {
     con.query(sql, (error, result, fields) => {
         if (error)  {res.json({status:400})}
         data = result;
-        res.json({status: 200, "flights": data});
+        res.json({"status": 200, "flights": data});
     });
 
 });
@@ -361,7 +361,7 @@ app.get("/get_unassigned_flights", function(req, res) {
 app.get("/get_flight", cors(), function(req, res) {
 
     //may have to change this..., I adjusted from params to body.
-    let flightNo = req.body.flightNo;
+    let flightNo = req.query.flightNo;
 
 
     //todo calculate seats left
@@ -383,7 +383,7 @@ app.get("/get_tickets", (req, res, next) => {
    // get_tickets(user_id: int) -> {status: int, tickets: [{ticketID: int, flight_number: int}]} // REMOVED SEAT #
 
     let sql = "SELECT T.ticketID, F.flightID as flight_number FROM	Flight AS F, User as U, Ticket as T WHERE" +
-    "U.id =  " + con.escape(req.body.username) + "  AND F.flightID = T.flight AND U.id = T.owner;";
+    "U.id =  " + con.escape(req.query.username) + "  AND F.flightID = T.flight AND U.id = T.owner;";
 
 
     con.query(sql, (error, result, fields) => {
@@ -401,7 +401,7 @@ app.get("/get_frequent_fliers", (req, res, next) => {
    // +get_frequent_fliers(date:int:int:int) -> {status: int, users: [{username: string, id: int, phone_number: int, email: string, totalSpend: int}]}
 
     let sql = "SELECT T.ticketID, F.flightID as flight_number FROM	Flight AS F, User as U, Ticket as T WHERE" +
-        "U.id =  " + con.escape(req.body.username) + "  AND F.flightID = T.flight AND U.id = T.owner;";
+        "U.id =  " + con.escape(req.query.username) + "  AND F.flightID = T.flight AND U.id = T.owner;";
 
 
     con.query(sql, (error, result, fields) => {
@@ -614,7 +614,18 @@ app.get("/diversity", function(req, res) {
 
 
 
+function get_current_date() {
+    var date;
+    date = new Date();
+    date = date.getUTCFullYear() + '-' +
+        ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+        ('00' + date.getUTCDate()).slice(-2) + ' ' + 
+        ('00' + date.getUTCHours()).slice(-2) + ':' + 
+        ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+        ('00' + date.getUTCSeconds()).slice(-2);
 
+    return date;
+}
 
 
 
