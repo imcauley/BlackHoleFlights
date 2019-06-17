@@ -414,6 +414,22 @@ app.get("/get_tickets", (req, res, next) => {
   
 });
 
+app.get("/get_user_type", (req, res, next) => {
+    // get_tickets(user_id: int) -> {status: int, tickets: [{ticketID: int, flight_number: int}]} // REMOVED SEAT #
+ 
+    let sql1 = `SELECT COUNT(*) as count FROM Pilot WHERE id=${con.escape(req.query.user_id)}`
+    let sql2 = `SELECT COUNT(*) as count FROM Admin WHERE id=${con.escape(req.query.user_id)}`
+ 
+    con.query(sql1, (error1, result1, fields) => {
+        if (error1) {res.json({status:400})} else {
+            con.query(sql2, (error2, result2, fields) => {
+                if (error2) {res.json({status:400})} else {
+                    res.json({status:200, is_admin:result1[0].count, is_pilot:result2[0].count})
+            }});
+    }});
+ 
+   
+ });
 
 app.get("/get_frequent_fliers", (req, res, next) => {
    // +get_frequent_fliers(date:int:int:int) -> {status: int, users: [{username: string, id: int, phone_number: int, email: string, totalSpend: int}]}
@@ -447,9 +463,6 @@ app.get("/get_not_admins", function(req, res) {
     let sql = "SELECT	U.username, U.id, U.phoneNumber, U.email FROM	User as U WHERE	U.id NOT IN (SELECT  U.id FROM  Admin as A WHERE U.id = A.id);";
 
     con.query(sql, (error, result, fields) => {
-        console.log(error);
-
-        console.log(result);
         if (error) { res.json({status:400}) } else {
             res.json({status:200, users: result})
         }
@@ -477,17 +490,14 @@ app.get("/login", function(req, res) {
 
 app.post("/signup", function(req, res) {
 
-
-    console.log(req.body.username);
-
     let query1 = `SELECT id
                 FROM User
                 WHERE username = "${req.body.username}"
                 OR email = "${req.body.email}"`
 
     let query2 = `INSERT INTO User
-                  (id, username, email, password, phoneNumber)
-                  VALUES (343555, '${req.body.username}', '${req.body.email}', '${req.body.password}', ${req.body.phone_number})`
+                  (username, email, password, phoneNumber)
+                  VALUES ('${req.body.username}', '${req.body.email}', '${req.body.password}', ${req.body.phone_number})`
 
     let query3 = `SELECT id
                     FROM User
