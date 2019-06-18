@@ -496,14 +496,15 @@ app.get("/get_not_admins", function(req, res) {
 
 app.get("/login", function(req, res) {
 
-    let query = `SELECT id
-                FROM User
-                WHERE username = "${req.query.username}"
-                AND password = "${req.query.password}"`
+    let query = "SELECT id FROM User WHERE username = " + con.escape(req.query.username) + " AND password =  " + con.escape(req.query.password) + ";";
 
     con.query(query, (error, result, fields) => {
         if (error) {res.json({status:400})} else {
-            res.json({status:200, user_id: result[0].id})
+
+            if(result.length === 0){
+                {res.json({status:400})}
+            }
+            else {res.json({status: 200, user_id: result[0].id})}
         }
     });
 
