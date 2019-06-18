@@ -18,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-384">
-              <caret line="562" column="19" selection-start-line="562" selection-start-column="10" selection-end-line="562" selection-end-column="19" />
+            <state relative-caret-position="106">
+              <caret line="572" column="136" selection-start-line="572" selection-start-column="136" selection-end-line="572" selection-end-column="136" />
             </state>
           </provider>
         </entry>
@@ -99,8 +99,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>buy_to</find>
-      <find>get_assigned_flights</find>
       <find>flight</find>
       <find>get_ass</find>
       <find>get_un</find>
@@ -129,6 +127,8 @@
       <find>get_</find>
       <find>buy</find>
       <find>get_trips</find>
+      <find>getSeatsLeft</find>
+      <find>get_all_flight</find>
     </findStrings>
     <replaceStrings>
       <replace>let</replace>
@@ -249,7 +249,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75021000" />
+    <option name="totallyTimeSpent" value="76422000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -506,8 +506,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-384">
-          <caret line="562" column="19" selection-start-line="562" selection-start-column="10" selection-end-line="562" selection-end-column="19" />
+        <state relative-caret-position="106">
+          <caret line="572" column="136" selection-start-line="572" selection-start-column="136" selection-end-line="572" selection-end-column="136" />
         </state>
       </provider>
     </entry>

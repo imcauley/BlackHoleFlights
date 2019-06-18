@@ -570,16 +570,21 @@ app.get("/get_trips", function(req, res) {
 
    
     //todo calculate seats left
-    let sql = "SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival," +
-        " M.modelName FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M WHERE F.departure = " + con.escape(source) + " " +
-        "AND F.arrival = " + con.escape(destination) + " AND F.departureTime >= " + con.escape(date) + " AND F.ship = S.serialNumber AND M.modelNumber = S.model " +
+    let sql = "SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, D.planetName as departure, D2.planetName as arrival," +
+        " M.modelName FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M, Destination as D, Destination as D2 WHERE F.departure = " + con.escape(source) + " " +
+        "AND F.arrival = " + con.escape(destination) + " AND F.departureTime >= " + con.escape(date) + " AND F.ship = S.serialNumber AND M.modelNumber = S.model AND D.id = F.departure AND D2.id = F.arrival" +
         ";";
 
-    con.query(sql, (error, result, fields) => {
-        if (error)  {res.json({status:400})} else{
-       let data = result;
-       let source = 0;
+/*
+    let sql = " SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, D.planetName as Departure, D2.planetName as Arrival, M.modelName" +
+        " FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M, Destination as D, Destination as D2  WHERE	F.departureTime >= " + con.escape(date) + " AND F.ship = " +
+        "S.serialNumber AND M.modelNumber = S.model AND F.departure = D.id AND F.arrival = D2.id ;";
+    */
 
+    con.query(sql, (error, result, fields) => {
+       // if (error)  {res.json({status:400})} else{
+        console.log(error);
+        let data = result;
 
        let dataFormatted = {
             trips : [{
@@ -595,11 +600,11 @@ app.get("/get_trips", function(req, res) {
             let obj = data[i];
             dataFormatted.trips[0].source = obj.departure; //this shouldn't be in the loop I guess.
             dataFormatted.trips[0].destination = obj.arrival;
-           // console.log(getSeatsLeft(obj.flightID));
-            // let x = getSeatsLeft(obj.flightID);
-            dataFormatted.trips[0].flights.push({
-                    "seats_left" : '10',
-                    "flight_number":obj.flightID,
+
+            getSeatsLeft(obj.flightID,function (x){
+                dataFormatted.trips[0].flights.push({
+                    "seats_left": x,
+                    "flight_number": obj.flightID,
                     "dep_year": obj.departureTime.getFullYear(),
                     "dep`_month": obj.departureTime.getMonth(),
                     "dep_hour": obj.departureTime.getDay(),
@@ -610,9 +615,9 @@ app.get("/get_trips", function(req, res) {
                     "arr_minute": obj.arrivalTime.getUTCMinutes()
                 });
 
-        res.json({status: 200, ...dataFormatted});
-        };
-    }});
+                if (i === data.length - 1) res.json({status: 200, ...dataFormatted});
+            })}
+    });
 });
 
 
