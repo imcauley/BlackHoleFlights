@@ -513,19 +513,25 @@ app.get("/login", function(req, res) {
 
 app.post("/signup", function(req, res) {
 
+
+    let username = con.escape(req.body.username);
+    let email = con.escape(req.body.email);
+    let password = con.escape(req.body.password);
+    let phone_number = con.escape(req.body.phone_number);
+
     let query1 = `SELECT id
                 FROM User
-                WHERE username = "${req.body.username}"
-                OR email = "${req.body.email}"`
+                WHERE username = "${username}"
+                OR email = "${email}"`
 
     let query2 = `INSERT INTO User
                   (username, email, password, phoneNumber)
-                  VALUES ('${req.body.username}', '${req.body.email}', '${req.body.password}', ${req.body.phone_number})`
+                  VALUES ('${con.escape(username)}', '${email}', '${con.escape(password)}', ${con.escape(phone_number)})`
 
     let query3 = `SELECT id
                     FROM User
-                    WHERE username = "${req.body.username}"
-                    AND password = "${req.body.password}"`
+                    WHERE username = "${con.escape(username)}"
+                    AND password = "${con.escape(password)}"`
 
     con.query(query1, (error1, result1) => {
         if (error1 || result1.length > 0) { res.json({status:400}) }
