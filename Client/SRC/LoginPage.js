@@ -1,7 +1,6 @@
 import React from 'react';
 import './MainPage.css';
 import { Redirect } from 'react-router-dom'
-import header from './header.png'
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
