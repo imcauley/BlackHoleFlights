@@ -305,12 +305,11 @@ app.get("/get_all_destinations", function(req, res) {
 
 app.get("/get_all_flights", function(req, res) {
 
-
     let date = req.query.date;
 
-   let sql = " SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, F.departure, F.arrival, M.modelName" +
-       " FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS  WHERE	F.departureTime >= " + con.escape(date) + " AND F.ship = " +
-       "S.serialNumber AND M.modelNumber = S.model;"
+   let sql = " SELECT	F.flightID, F.departureTime, F.arrivalTime, F.totalDistance, D.planetName as Departure, D2.planetName as Arrival, M.modelName" +
+       " FROM	Flight AS F, SpaceShip AS S, SpaceShipModel AS M, Destination as D, Destination as D2  WHERE	F.departureTime >= " + con.escape(date) + " AND F.ship = " +
+       "S.serialNumber AND M.modelNumber = S.model AND F.departure = D.id AND F.arrival = D2.id ;";
 
     con.query(sql, (error, result, fields) => {
         if (error)  {res.json({status:400})}

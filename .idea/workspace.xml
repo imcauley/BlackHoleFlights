@@ -18,8 +18,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="460" column="30" selection-start-line="460" selection-start-column="30" selection-end-line="460" selection-end-column="30" />
+            <state relative-caret-position="-384">
+              <caret line="562" column="19" selection-start-line="562" selection-start-column="10" selection-end-line="562" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db/API_queries/get_all_flights.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="15" column="19" lean-forward="true" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -45,8 +54,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/API_queries/rich_people.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="7" column="85" selection-start-line="7" selection-start-column="81" selection-end-line="7" selection-end-column="85" />
+            <state relative-caret-position="253">
+              <caret line="11" column="73" selection-start-line="11" selection-start-column="73" selection-end-line="11" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -90,11 +99,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>get_ticket</find>
-      <find>get_f</find>
-      <find>get_ti</find>
-      <find>getass</find>
-      <find>get_not_pol</find>
       <find>buy_to</find>
       <find>get_assigned_flights</find>
       <find>flight</find>
@@ -112,7 +116,6 @@
       <find>username</find>
       <find>&gt;=</find>
       <find>add_admin</find>
-      <find>frequency</find>
       <find>get_frequent_fliers</find>
       <find>rick</find>
       <find>pilot</find>
@@ -120,6 +123,12 @@
       <find>get_fr</find>
       <find>split</find>
       <find>getcur</find>
+      <find>flights</find>
+      <find>frequency</find>
+      <find>get_flights</find>
+      <find>get_</find>
+      <find>buy</find>
+      <find>get_trips</find>
     </findStrings>
     <replaceStrings>
       <replace>let</replace>
@@ -175,6 +184,17 @@
               <item name="BlackHoleFlights" type="b2602c69:ProjectViewProjectNode" />
               <item name="BlackHoleFlights" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="BlackHoleFlights" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BlackHoleFlights" type="462c0819:PsiDirectoryNode" />
+              <item name="db" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BlackHoleFlights" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BlackHoleFlights" type="462c0819:PsiDirectoryNode" />
+              <item name="db" type="462c0819:PsiDirectoryNode" />
+              <item name="API_queries" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -229,7 +249,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73722000" />
+    <option name="totallyTimeSpent" value="75021000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -418,13 +438,6 @@
     <entry file="file://$PROJECT_DIR$/db/API_queries/delete_flight.sql">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/API_queries/get_all_flights.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="13" selection-start-line="13" selection-end-line="15" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/API_queries/get_assigned_flights.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="322">
@@ -477,17 +490,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/db/API_queries/get_all_flights.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" column="19" lean-forward="true" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/db/API_queries/rich_people.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="85" selection-start-line="7" selection-start-column="81" selection-end-line="7" selection-end-column="85" />
+        <state relative-caret-position="253">
+          <caret line="11" column="73" selection-start-line="11" selection-start-column="73" selection-end-line="11" selection-end-column="73" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="460" column="30" selection-start-line="460" selection-start-column="30" selection-end-line="460" selection-end-column="30" />
+        <state relative-caret-position="-384">
+          <caret line="562" column="19" selection-start-line="562" selection-start-column="10" selection-end-line="562" selection-end-column="19" />
         </state>
       </provider>
     </entry>
