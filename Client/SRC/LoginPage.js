@@ -140,10 +140,15 @@ class SignUpForm extends React.Component {
               .then(res => res.json())
               .then(
                 (result) => {
+                    if(result.status === 200) {
                     cookies.set('user_id', result.user_id, { path: '/' });
                     this.setState({
                         id: result.user_id
                     }); 
+                    }
+                    else {
+                        this.setState({bad_login: true});
+                    }
                 })
         }
         else{

@@ -13,9 +13,7 @@ var API_URL = 'http://127.0.0.1:3000';
 
 function MainPage () {
     return (
-        <body>
         <TabHandler/>
-        </body>
     )
 }
 
@@ -72,7 +70,7 @@ class TabHandler extends React.Component {
 
     render() {
         if(this.state.logged_out) {
-            return (<Redirect to='/'/>)
+            return (<Redirect to='/'/>);
         }
 
         var page;

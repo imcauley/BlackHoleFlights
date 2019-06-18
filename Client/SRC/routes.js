@@ -6,8 +6,8 @@ import LoginPage from './LoginPage'
 function router() {
     return(    
         <Router>
-        <Route path="/" component={LoginPage} />
-        <Route path="/app" component={MainPage} />
+        <Route exact path="/" component={LoginPage} />
+        <Route exact path="/app" component={MainPage} />
         </Router>
     )
 };
