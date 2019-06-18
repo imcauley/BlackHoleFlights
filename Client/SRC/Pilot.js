@@ -104,7 +104,6 @@ class ViewOpenFlights extends React.Component {
         })
       })
       .then(response => {
-        console.log(response);
         this.getFlights();
       });
     }

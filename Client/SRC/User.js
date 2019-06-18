@@ -124,7 +124,6 @@ class LookFlights extends React.Component {
       }
     
       handleSubmit(event) {
-        console.log(this.state);
         event.preventDefault();
         this.setState({
           to: parseInt(this.state.to),
@@ -188,6 +187,9 @@ class LookFlights extends React.Component {
             flights: flight_indexes.join(','),
             user_id: cookies.get('user_id')
           })
+        })
+        .then(response => {
+          alert("Bought Trip");
         });
         // this.setState({language: langValue});
       }
@@ -315,7 +317,8 @@ class TripInfo extends React.Component {
 
         this.state = {  
           flights:flightViews,
-          collapsed: true
+          collapsed: true,
+          bought: false
         };
 
         console.log(this.state.flights);
@@ -335,6 +338,10 @@ class TripInfo extends React.Component {
       }
     
       render() {
+        if(this.state.bought) {
+          return(<div className='tripRow'> Bought </div>)
+        }
+
         var main = (
         <div className='tripRow'> 
         <button onClick={this.handleBuy}> Buy Flight </button>

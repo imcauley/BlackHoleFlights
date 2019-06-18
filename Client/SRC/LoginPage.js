@@ -1,8 +1,7 @@
 import React from 'react';
 import './MainPage.css';
-import { throws } from 'assert';
 import { Redirect } from 'react-router-dom'
-import { instanceOf } from 'prop-types';
+import header from './header.png'
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -12,11 +11,14 @@ var API_URL = 'http://127.0.0.1:3000';
 function LoginPage () {
 
     return (
-        <div>
+        <div className="userLogInForm">
+            <center>
+        <h1> Black Hole Flights </h1>
         <LoginForm/>
         <br/>
         <br/>
         <SignUpForm/>
+        </center>
         </div>
     )
 };
@@ -123,7 +125,6 @@ class SignUpForm extends React.Component {
     }
 
     handleSignup(event) {
-        console.log()
         if(this.state.username != "" && this.state.password != "" && this.state.email != "" && this.state.phone_number != -1) {
             fetch(`${API_URL}/signup`, {
                 method: 'POST',

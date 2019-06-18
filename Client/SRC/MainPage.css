@@ -142,3 +142,13 @@ html {
     width: 100%;
     border-bottom: 3px solid #282c34;
 }
+
+.userLogInForm {
+    margin: auto;
+    width: 30%;
+    margin-top: 50px;
+    padding: 10px;
+    padding-bottom: 100px;
+    background-color: #444444;
+    /* color: #282c34; */
+}

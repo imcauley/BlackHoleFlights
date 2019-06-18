@@ -248,7 +248,6 @@ class AddPilots extends React.Component {
     .then(
       (result) => {
         if(result.status === 200) {
-          console.log(result.users);
           var temp_user_rows = []
           for(let i = 0; i < result.users.length; i++) {
             temp_user_rows.push(
@@ -295,10 +294,11 @@ class ViewGoldCustomers extends React.Component {
   }
 
   getUsers() {
-    fetch(`${API_URL}/get_all_users/`)
+    fetch(`${API_URL}/get_frequent_fliers/`)
     .then(res => res.json())
     .then(
       (result) => {
+        console.log(result.users)
         var tempUserRows = [];
 
         tempUserRows = result.users.map((item, index) => (
